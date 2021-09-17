@@ -21,8 +21,10 @@ class AuthController extends BaseController
                 return $this->returnAccessForbidden();
             }
 
+            $token = $user->createToken('Auth token');
+
             $data = [
-                'token' => $user->createToken('authToken')->plainTextToken,
+                'token' => $token->accessToken,
                 'name' => $user->name
             ];
 
