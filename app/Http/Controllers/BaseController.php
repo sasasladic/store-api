@@ -49,7 +49,7 @@ class BaseController extends Controller
             'message' => $message
         ];
         if ($additional) {
-            return array_merge($return, $additional);
+            return array_merge($additional, $return);
         }
 
         return $return;

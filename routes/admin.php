@@ -44,19 +44,19 @@ Route::group([ 'middleware' => ['auth:api']], function () {
             Route::get('create', [ProductController::class, 'createProduct']);
             Route::post('create', [ProductController::class, 'storeProduct'])->name('product.store');
 
-            //Route::get('{id}/edit', [ProductController::class, 'editProduct']); @TODO TODO
+            Route::get('{id}', [ProductController::class, 'editProduct']);
             Route::post('{id}/edit', [ProductController::class, 'updateProduct'])->name('product.update');
 
             Route::group(['prefix' => '{id}/variant'], function () {
                 Route::post('create', [ProductController::class, 'storeProductVariants'])->name('productVariants.store');
 
-                Route::get('', [ProductController::class, 'editProductVariants']);
+                Route::get('', [ProductController::class, 'editProductVariants']); //Edit and get
+
+                Route::get('{variantId}', [ProductController::class, 'editProductVariant']);
                 Route::patch('{variantId}/edit', [ProductController::class, 'updateProductVariant'])->name('productVariant.update');
 
                 Route::delete('{variantId}', [ProductController::class, 'deleteProductVariant']);
             });
-
-
 
         });
 

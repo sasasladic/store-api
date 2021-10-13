@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\ImageHelper;
 use App\Helper\TranslationHelper;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Product\CreateUpdateProductVariantRequest;
@@ -9,6 +10,7 @@ use App\Http\Requests\Product\CreateUpdateRequest;
 use App\Http\Resources\Admin\Category\Item\CreateCategoryItem;
 use App\Http\Resources\Admin\Category\Model\CategoryCreate;
 use App\Http\Resources\Admin\Category\Resources\CategoryResource;
+use App\Http\Resources\Admin\Option\Resources\OptionSearchResource;
 use App\Http\Resources\Admin\Product\Resources\ProductResource;
 use App\Http\Resources\Admin\Product\Resources\ProductVariantsResource;
 use App\Models\Category;
@@ -16,6 +18,8 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Repositories\ProductRepositoryInterface;
 use App\Services\ProductService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProductController extends BaseController
 {
@@ -79,10 +83,36 @@ class ProductController extends BaseController
     public function storeProduct(CreateUpdateRequest $request)
     {
         try {
-            $product = Product::create($request->validated());
+
+        $author = $request->user();
+            $validatedData = $request->validated();
+            if ($validatedData['images']) {
+                unset($validatedData['images']);
+            }
+            $product = Product::create($validatedData);
+            $productImages = [];
+            if ($request->has('images')) {
+                foreach ($request->file('images') as $image) {
+                    $imagePath = "product/$product->id/" . Str::random(8) . "_" . strtolower($image->getClientOriginalName());
+                    //PATH SHOULD BE FULL PATH WITH IMAGE NAME
+                    ImageHelper::uploadImage($imagePath, $image->getContent());
+                    $productImages[] = [
+                        'product_id' => $product->id,
+                        'image_path' => $imagePath,
+                        'created_by' => $author->id,
+                        'updated_by' => $author->id,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ];
+                }
+            }
+
+            if ($productImages) {
+                DB::table('product_images')->insert($productImages);
+            }
 
             return $this->returnResponseSuccess(['product_id' => $product->id], __('cruds.success.stored'));
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             return $this->returnResponseError([], __('cruds.errors.db_fail'));
         }
     }
@@ -90,12 +120,20 @@ class ProductController extends BaseController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function editProduct($id)
     {
-        //
+        $product = $this->productRepository->findWithoutGlobalScopes(Product::class, $id);
+        if (!$product) {
+            return $this->returnNotFoundError();
+        }
+
+        return $this->returnResponseSuccessWithPagination(
+            new ProductResource($product),
+            __('cruds.success.list', ['data' => 'products'])
+        );
     }
 
     /**
@@ -108,10 +146,18 @@ class ProductController extends BaseController
     public function updateProduct(CreateUpdateRequest $request, int $id)
     {
         try {
-            $this->productRepository->update(app(Product::class)->getTable(), $id, $request->validated(), $request->user());
+            $this->productRepository->update(
+                app(Product::class)->getTable(),
+                $id,
+                $request->validated(),
+                $request->user()
+            );
 
-            return $this->returnResponseSuccess(['product_id' => $id],  __('cruds.success.updated', ['model' => 'Product']));
-        }catch (\Exception $exception) {
+            return $this->returnResponseSuccess(
+                ['product_id' => $id],
+                __('cruds.success.updated', ['model' => 'Product'])
+            );
+        } catch (\Exception $exception) {
             return $this->returnResponseError([], __('cruds.errors.db_fail'));
         }
     }
@@ -132,7 +178,11 @@ class ProductController extends BaseController
 
         $data = $request->validated();
         foreach ($data['variants'] as $variant) {
-            $optionValues = $this->productService->getRequestVariantOptionValues($variant['variant_values'], $id, $request->user()->id);
+            $optionValues = $this->productService->getRequestVariantOptionValues(
+                $variant['variant_values'],
+                $id,
+                $request->user()->id
+            );
             //PRODUCT VARIANTS
             $variant['variant_data']['product_id'] = $id;
             $productVariant = ProductVariant::create($variant['variant_data']);
@@ -141,19 +191,32 @@ class ProductController extends BaseController
         }
 
         return $this->returnResponseSuccess([], __('cruds.success.stored'));
-
     }
 
     public function editProductVariants(int $productId)
     {
         $productVariants = $this->productRepository->getAllProductVariants($productId);
 
+        $product = $this->productRepository->findWithoutGlobalScopes(Product::class, $productId);
+        $productAttributes = OptionSearchResource::collection($product->options);
+
+
         return $this->returnResponseSuccessWithPagination(
             ProductVariantsResource::collection($productVariants),
+            __('cruds.success.list', ['data' => 'products']),
+            ['attributes' => $productAttributes]
+        );
+    }
+
+    public function editProductVariant(int $variantId)
+    {
+        $productVariant = $this->productRepository->findWithoutGlobalScopes(ProductVariant::class, $variantId);
+
+
+        return $this->returnResponseSuccessWithPagination(
+            new ProductVariantsResource($productVariant),
             __('cruds.success.list', ['data' => 'products'])
         );
-
-
     }
 
     /**
@@ -162,7 +225,8 @@ class ProductController extends BaseController
      * @param int $variantId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateProductVariant(CreateUpdateProductVariantRequest $request, int $id, int $variantId){
+    public function updateProductVariant(CreateUpdateProductVariantRequest $request, int $id, int $variantId)
+    {
         $product = $this->productRepository->findWithoutGlobalScopes(Product::class, $id);
         if (!$product) {
             return $this->returnNotFoundError();
@@ -171,31 +235,37 @@ class ProductController extends BaseController
         $productVariant = $this->productRepository->findWithoutGlobalScopes(ProductVariant::class, $variantId);
 
         $data = $request->validated();
-        $optionValues = $this->productService->getRequestVariantOptionValues($data['variant_values'], $id, $request->user()->id);
+        $optionValues = $this->productService->getRequestVariantOptionValues(
+            $data['variant_values'],
+            $id,
+            $request->user()->id
+        );
 
         //VARIANT VALUES SYNC
         $productVariant->optionValues()->sync($optionValues, true);
         //UPDATE PRODUCT VARIANT
         $productVariant->update($data['variant_data']);
 
-        return $this->returnResponseSuccess(['product_id' => $product->id],  __('cruds.success.updated', ['model' => 'Product Variants']));
-
+        return $this->returnResponseSuccess(
+            ['product_id' => $product->id],
+            __('cruds.success.updated', ['model' => 'Product Variants'])
+        );
     }
 
     public function deleteProductVariant(int $variantId)
     {
         $deleted = $this->productRepository->delete(app(ProductVariant::class)->getTable(), $variantId);
         if ($deleted) {
-            return $this->returnResponseSuccess([],  __('cruds.success.deleted', ['model' => 'Product Variant']));
+            return $this->returnResponseSuccess([], __('cruds.success.deleted', ['model' => 'Product Variant']));
         }
 
-        return $this->returnResponseError([],  __('cruds.error.deleted', ['model' => 'Product Variant']));
+        return $this->returnResponseError([], __('cruds.error.deleted', ['model' => 'Product Variant']));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function deleteProduct($id)

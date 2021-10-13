@@ -37,8 +37,8 @@ class OptionValueRepository extends BaseRepository implements OptionValueReposit
             ->paginate(config('admin-panel.pagination.default'));
     }
 
-    public function getOptionValueRelation(int $optionId, int $valueId)
+    public function getOptionValueRelation(int $optionId, string $value)
     {
-        return OptionValue::where('option_id', $optionId)->where('value', $valueId)->first();
+        return OptionValue::where('option_id', $optionId)->where('value', $value)->first();
     }
 }

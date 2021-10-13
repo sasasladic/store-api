@@ -53,6 +53,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->with(['optionValues', 'optionValues.option'])
             ->allowedFilters(
                 [
+                    'id',
                     'sku',
                     AllowedFilter::exact('optionValues.option.name'),
                     AllowedFilter::exact('optionValues.value'),
@@ -60,5 +61,17 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             )
             ->withoutGlobalScopes() // Soft delete is a global scope
             ->paginate(config('admin-panel.pagination.default'));
+    }
+
+    public function getAll()
+    {
+        return QueryBuilder::for(Product::class)
+            ->allowedFilters(
+                [
+                    'name',
+                ]
+            )
+            ->withoutGlobalScopes() // Soft delete is a global scope
+            ->paginate(config('api.pagination.product.index'));
     }
 }

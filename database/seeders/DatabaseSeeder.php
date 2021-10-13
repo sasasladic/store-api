@@ -13,16 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        $this->call(LanguagesTableSeeder::class);
-        $this->call(RolesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
+//        \App\Models\User::factory(150)->create();
+//        $this->call(LanguagesTableSeeder::class);
+//        $this->call(RolesTableSeeder::class);
+//        $this->call(UsersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
-        $this->call(OptionsTableSeeder::class);
-        $this->call(OptionValuesTableSeeder::class);
-        $this->call(ProductsTableSeeder::class);
-        $this->call(ProductVariantsTableSeeder::class);
-        $this->call(UserOrdersTableSeeder::class);
+//        $this->call(OptionsTableSeeder::class);
+//        $this->call(OptionValuesTableSeeder::class);
+//        $this->call(ProductsTableSeeder::class);
+//        $this->call(ProductVariantsTableSeeder::class);
+//        $this->call(UserOrdersTableSeeder::class);
 //        $this->call(TestSeeders::class);
     }
 }

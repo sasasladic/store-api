@@ -42,7 +42,7 @@ class CreateUpdateProductVariantRequest extends FormRequest
     {
         return [
             'variant_data.id' => 'required|integer',
-            'variant_data.sku' => 'required|unique:product_variants,sku|min:2|max:10',//Most important, so there is no duplications
+            'variant_data.sku' => 'required|min:2|max:10',
             'variant_data.price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
             'variant_data.in_stock' => 'required|integer',
             'variant_values' => 'required|array',

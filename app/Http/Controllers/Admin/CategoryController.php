@@ -35,7 +35,7 @@ class CategoryController extends BaseController
     public function index()
     {
 //        $allCategories = Category::withoutGlobalScopes()->paginate(config('admin-panel.pagination.default'));
-        $allCategories = $this->categoryRepository->index(Category::class);
+        $allCategories = $this->categoryRepository->getAll();
 
         return $this->returnResponseSuccessWithPagination(
             CategoryResource::collection($allCategories),

@@ -16,6 +16,8 @@ class Role extends Model
         'manager' => 3,
     ];
 
+    const USER = 2;
+
     public function users()
     {
         return $this->hasMany(User::class)->withTrashed();

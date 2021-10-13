@@ -2,6 +2,6 @@
 
 return [
     'pagination' => [
-        'default' => 30
+        'default' => 12
     ]
 ];

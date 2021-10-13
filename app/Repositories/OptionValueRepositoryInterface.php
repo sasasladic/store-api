@@ -8,5 +8,5 @@ interface OptionValueRepositoryInterface extends BaseRepositoryInterface
 
     public function getAllValues();
 
-    public function getOptionValueRelation(int $optionId, int $valueId);
+    public function getOptionValueRelation(int $optionId, string $value);
 }

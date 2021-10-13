@@ -16,7 +16,7 @@ class CategoriesTableSeeder extends Seeder
     {
         Category::create(
             [
-                'name' => ['en' => 'Clothes', 'de' => 'Kleider'],
+                'name' => ['en' => 'Clothes2', 'de' => 'Kleider'],
                 'description' => ['en' => 'Test desc for Clothes', 'de' => 'Testbeschreibung für Kleidung'],
                 'active' => 1
             ]
@@ -24,7 +24,7 @@ class CategoriesTableSeeder extends Seeder
 
         Category::create(
             [
-                'name' => ['en' => 'Shirts', 'de' => 'Hemden'],
+                'name' => ['en' => 'Shirts2', 'de' => 'Hemden'],
                 'description' => ['en' => 'Test desc for Shirts', 'de' => 'Testbeschreibung für Hemden'],
                 'parent_id' => 1,
                 'active' => 1

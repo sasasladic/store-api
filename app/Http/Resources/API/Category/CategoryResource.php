@@ -1,12 +1,10 @@
 <?php
 
-
-namespace App\Http\Resources\Admin\Option\Resources;
-
+namespace App\Http\Resources\API\Category;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OptionSearchResource extends JsonResource
+class CategoryResource extends JsonResource
 {
 
     /**
@@ -19,7 +17,9 @@ class OptionSearchResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => strtolower($this->name),
+            'name' => $this->name,
+            'description' => $this->description, //$this->getTranslations('description'),
+            'children' => count($this->children) ? self::collection($this->children) : null,
         ];
     }
 }

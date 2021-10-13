@@ -28,7 +28,8 @@ class ProductResource extends JsonResource
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'updated_by' => new UserSearchResource($this->editor),
             'deleted_at' => $this->deleted_at ? $this->deleted_at->format('Y-m-d H:i:s') : null,
-            'deleted_by' => $this->destroyer ? new UserSearchResource($this->destroyer) : null
+            'deleted_by' => $this->destroyer ? new UserSearchResource($this->destroyer) : null,
+            'images' => $this->images ? ProductImagesResource::collection($this->images) : null
         ];
     }
 }
