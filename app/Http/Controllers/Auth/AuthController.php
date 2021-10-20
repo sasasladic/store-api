@@ -41,6 +41,7 @@ class AuthController extends BaseController
         $user = $request->user();
 
         $data = array(
+            'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role->name
         );
