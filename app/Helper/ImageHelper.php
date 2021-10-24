@@ -14,7 +14,10 @@ class ImageHelper
 
     public static function getImageUrl($path, $disk = 'public')
     {
-        return Storage::disk($disk)->url($path);
+        $url = Storage::disk($disk)->url($path);
+        $newstr = substr_replace($url, '/store-api/public', strpos($url, '.net')+4, 0);
+
+        return $newstr;
     }
 
     public static function getImage($path, $disk = 'public')
