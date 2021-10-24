@@ -14,34 +14,52 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        $product = Product::create(
+//        $product = Product::create(
+//            [
+//                'name' => [
+//                    'en' => 'Multix Shoes',
+//                    'de' => 'Multix Shoes'
+//                ],
+//                'description' => [
+//                    'en' => 'Mesh shoes for comfort, ease and modern 3-stripes style.',
+//                    'de' => 'Mesh-Schuhe für Komfort, Leichtigkeit und modernen 3-Streifen-Stil.'
+//                ],
+//                'category_gender_id' => 2,
+//                'active' => 1,
+//                'created_by' => 1,
+//                'updated_by' => 1
+//            ]
+//        );
+
+//        $product->options()->attach(
+//            [
+//                [
+//                    'option_id' => 1,
+//                    'created_by' => 1,
+//                    'updated_by' => 1,
+//                ],
+//                [
+//                    'option_id' => 2,
+//                    'created_by' => 1,
+//                    'updated_by' => 1,
+//                ]
+//            ]
+//        );
+
+        $jacket = Product::create(
             [
                 'name' => [
-                    'en' => 'T-Shirt',
-                    'de' => 'Hemd'
+                    'en' => 'Essentials Down Parka',
+                    'de' => 'Essentials Down Parka'
                 ],
                 'description' => [
-                    'en' => 'A simple cotton shirt that makes it easy to move and provides you with something to wear when you want to be casual and comfortable.',
-                    'de' => 'Einfaches Baumwollhemd, das sich leicht bewegen lässt und dir etwas zum Anziehen bietet, wenn du es lässig und bequem haben möchtest.'
+                    'en' => 'A long down jacket for full-body warmth on the coldest days.',
+                    'de' => 'Eine lange Daunenjacke für Ganzkörperwärme an den kältesten Tagen.'
                 ],
-                'category_id' => 2,
+                'category_gender_id' => 8,
                 'active' => 1,
                 'created_by' => 1,
                 'updated_by' => 1
-            ]
-        );
-        $product->options()->attach(
-            [
-                [
-                    'option_id' => 1,
-                    'created_by' => 1,
-                    'updated_by' => 1,
-                ],
-                [
-                    'option_id' => 2,
-                    'created_by' => 1,
-                    'updated_by' => 1,
-                ]
             ]
         );
     }

@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'category' => new CategorySearchResource($this->category),
+            'category' => new CategorySearchResource($this->categoryGender->category),
             'active' => $this->active,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'created_by' => new UserSearchResource($this->creator),

@@ -22,9 +22,9 @@ class Product extends Model
 
     protected $guarded = ['id'];
 
-    public function category()
+    public function categoryGender()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(CategoryGender::class)->with('category');
     }
 
     public function allVariants()

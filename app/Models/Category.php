@@ -42,6 +42,11 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function genders()
+    {
+        return $this->belongsToMany(Gender::class)->withTimestamps();
+    }
+
     /**
      * The "booted" method of the model.
      *

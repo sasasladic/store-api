@@ -63,15 +63,21 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->paginate(config('admin-panel.pagination.default'));
     }
 
-    public function getAll()
+    public function getAll($limit = 0)
     {
-        return QueryBuilder::for(Product::class)
+        $query = QueryBuilder::for(Product::class)
+            ->with(['images', 'categoryGender', 'categoryGender.category'])
             ->allowedFilters(
                 [
                     'name',
                 ]
             )
-            ->withoutGlobalScopes() // Soft delete is a global scope
-            ->paginate(config('api.pagination.product.index'));
+            ->withoutGlobalScopes(); // Soft delete is a global scope;
+
+        if ($limit > 0) {
+            return $query->take($limit)->get();
+        }
+
+        return $query->paginate(config('api.pagination.product.index'));
     }
 }

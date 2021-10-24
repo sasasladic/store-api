@@ -15,11 +15,16 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request)
     {
+//        if ($this->name == 'Clothes') {
+//            dd($this->childrensa);
+//        }
+        $children = collect($this->childrensa);
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description, //$this->getTranslations('description'),
-            'children' => count($this->children) ? self::collection($this->children) : null,
+            'children' => count($children) ? self::collection(collect($children)) : null,
         ];
     }
 }

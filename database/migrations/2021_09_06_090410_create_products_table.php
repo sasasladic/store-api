@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->json('name');
             $table->json('description')->nullable();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
+            $table->foreignId('category_gender_id')->nullable()->constrained('category_gender')->onDelete('set null');
             $table->boolean('active')->default(false);
             $table->timestamps();
             $table->softDeletes();

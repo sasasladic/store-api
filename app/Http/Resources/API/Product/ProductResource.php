@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'category' => new CategorySearchResource($this->category),
+            'category' => new CategorySearchResource($this->categoryGender->category),
             'image' => count($this->images) > 0 ? new ProductImagesResource($this->images[0]) : null
         ];
     }

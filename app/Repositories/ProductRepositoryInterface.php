@@ -11,5 +11,5 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
 
     public function getAllProductVariants(int $productId);
 
-    public function getAll();
+    public function getAll(int $limit = 0);
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,15 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-//        \App\Models\User::factory(150)->create();
-//        $this->call(LanguagesTableSeeder::class);
-//        $this->call(RolesTableSeeder::class);
-//        $this->call(UsersTableSeeder::class);
+        $this->call(LanguagesTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        \App\Models\User::factory(100)->create();
+        $this->call(GenderTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
-//        $this->call(OptionsTableSeeder::class);
-//        $this->call(OptionValuesTableSeeder::class);
-//        $this->call(ProductsTableSeeder::class);
-//        $this->call(ProductVariantsTableSeeder::class);
+        $this->call(OptionsTableSeeder::class);
+        $this->call(OptionValuesTableSeeder::class);
+        $this->call(ProductsTableSeeder::class);
+        $this->call(ProductVariantsTableSeeder::class);
 //        $this->call(UserOrdersTableSeeder::class);
 //        $this->call(TestSeeders::class);
     }

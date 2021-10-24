@@ -16,12 +16,19 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request)
     {
+        if (count($this->genders) == 1) {
+            $gender = $this->genders[0]->id;
+        }elseif (count($this->genders) > 1) {
+            $gender = 3;
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description, //$this->getTranslations('description'),
             'children' => count($this->children) ? self::collection($this->children) : null,
             'parent' => $this->parent ? new CategorySearchResource($this->parent) : null,
+            'gender' => $gender,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'created_by' => new UserSearchResource($this->creator),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

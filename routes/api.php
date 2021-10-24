@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\HomePageController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -20,6 +21,8 @@ Route::group(['namespace' => 'API'], function () {
         Route::get('', [CategoryController::class, 'index']);
         Route::get('tree', [CategoryController::class, 'tree']);
     });
+
+    Route::get('homepage', [HomePageController::class, 'getAll']);
 
     Route::group(['prefix' => 'product'], function () {
         Route::get('', [ProductController::class, 'index']);

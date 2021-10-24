@@ -14,8 +14,10 @@ use App\Http\Resources\Admin\Option\Resources\OptionSearchResource;
 use App\Http\Resources\Admin\Product\Resources\ProductResource;
 use App\Http\Resources\Admin\Product\Resources\ProductVariantsResource;
 use App\Models\Category;
+use App\Models\CategoryGender;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Services\ProductService;
 use Illuminate\Support\Facades\DB;
@@ -27,17 +29,22 @@ class ProductController extends BaseController
 
     private ProductService $productService;
 
+    private CategoryRepositoryInterface $categoryRepository;
+
     /**
      * CategoryController constructor.
      * @param ProductRepositoryInterface $productRepository
      * @param ProductService $productService
+     * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         ProductRepositoryInterface $productRepository,
-        ProductService $productService
+        ProductService $productService,
+        CategoryRepositoryInterface $categoryRepository
     ) {
         $this->productRepository = $productRepository;
         $this->productService = $productService;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -47,7 +54,7 @@ class ProductController extends BaseController
      */
     public function allProducts()
     {
-        $allProducts = $this->productRepository->index(Product::class, ['category']);
+        $allProducts = $this->productRepository->index(Product::class, ['categoryGender']);
 
         return $this->returnResponseSuccessWithPagination(
             ProductResource::collection($allProducts),
@@ -62,12 +69,14 @@ class ProductController extends BaseController
      */
     public function createProduct()
     {
+        $allCategories = $this->categoryRepository->getAll(false);
+
         //It's the same as for categories (for now)
         return $this->returnResponseSuccess(
             new CreateCategoryItem(
                 new CategoryCreate(
                     TranslationHelper::getLanguagesCollection(),
-                    CategoryResource::collection(Category::withoutGlobalScopes()->orderByDesc('id')->take(10)->get())
+                    CategoryResource::collection($allCategories)
                 )
             ),
             __('cruds.success.create')
@@ -89,7 +98,15 @@ class ProductController extends BaseController
             if ($validatedData['images']) {
                 unset($validatedData['images']);
             }
+
+            $categoryGender = CategoryGender::where('category_id', $validatedData['category_id'])->where('gender_id', $validatedData['gender'])->first();
+            $validatedData['category_gender_id'] = $categoryGender->id;
+
+            unset($validatedData['category_id']);
+            unset($validatedData['gender_id']);
+
             $product = Product::create($validatedData);
+
             $productImages = [];
             if ($request->has('images')) {
                 foreach ($request->file('images') as $image) {
