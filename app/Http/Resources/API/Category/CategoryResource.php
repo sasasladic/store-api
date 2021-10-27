@@ -15,10 +15,7 @@ class CategoryResource extends JsonResource
      */
     public function toArray($request)
     {
-//        if ($this->name == 'Clothes') {
-//            dd($this->childrensa);
-//        }
-        $children = collect($this->childrensa);
+        $children = collect($this->children);
 
         return [
             'id' => $this->id,

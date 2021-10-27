@@ -5,25 +5,32 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\API\HomePage\Item\HomePageItem;
 use App\Http\Resources\API\HomePage\Model\HomePageObject;
-use App\Models\Gender;
 use App\Repositories\ProductRepositoryInterface;
+use App\Services\CategoryService;
 
 class HomePageController extends BaseController
 {
     private ProductRepositoryInterface $productRepository;
 
+    private CategoryService $categoryService;
+
     /**
      * CategoryController constructor.
      * @param ProductRepositoryInterface $productRepository
+     * @param CategoryService $categoryService
      */
-    public function __construct(ProductRepositoryInterface $productRepository)
+    public function __construct(
+        ProductRepositoryInterface $productRepository,
+        CategoryService $categoryService
+    )
     {
         $this->productRepository = $productRepository;
+        $this->categoryService = $categoryService;
     }
 
     public function getAll()
     {
-        $genders = Gender::all();
+        $genders = $this->categoryService->makeCategoryTree();
         $products = $this->productRepository->getAll(5);
 
         return $this->returnResponseSuccess(

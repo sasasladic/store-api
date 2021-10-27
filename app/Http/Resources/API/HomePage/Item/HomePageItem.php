@@ -24,7 +24,7 @@ class HomePageItem extends JsonResource
     {
         /** @var HomePageObject $this */
         return [
-            'genders' => GenderResource::collection($this->getGeneders()),
+            'genders' => GenderResource::collection($this->getGenders()),
             'products' => ProductResource::collection($this->getProducts()),
         ];
     }

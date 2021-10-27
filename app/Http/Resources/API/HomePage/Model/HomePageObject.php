@@ -1,32 +1,30 @@
 <?php
 
-
 namespace App\Http\Resources\API\HomePage\Model;
-
 
 class HomePageObject
 {
-    private $geneders;
+    private $genders;
 
     private $products;
 
     /**
      * HomePageObject constructor.
-     * @param $geneders
+     * @param $genders
      * @param $products
      */
-    public function __construct($geneders, $products)
+    public function __construct($genders, $products)
     {
-        $this->geneders = $geneders;
+        $this->genders = $genders;
         $this->products = $products;
     }
 
     /**
      * @return mixed
      */
-    public function getGeneders()
+    public function getGenders()
     {
-        return $this->geneders;
+        return $this->genders;
     }
 
     /**

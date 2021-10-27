@@ -3,6 +3,7 @@
 namespace App\Http\Resources\API\Gender;
 
 use App\Helper\ImageHelper;
+use App\Http\Resources\API\Category\CategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GenderResource extends JsonResource
@@ -18,7 +19,8 @@ class GenderResource extends JsonResource
     {
         return [
             'name' => $this->gender,
-            'image' => isset($this->image_path) ? ImageHelper::getImageUrl($this->image_path) : null
+            'image' => isset($this->image_path) ? ImageHelper::getImageUrl($this->image_path) : null,
+            'categories' => CategoryResource::collection($this->categories)
         ];
     }
 }

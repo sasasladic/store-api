@@ -3,7 +3,6 @@
 namespace App\Repositories\Implementation;
 
 use App\Models\Category;
-use App\Models\CategoryGender;
 use App\Models\Gender;
 use App\Repositories\CategoryRepositoryInterface;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -34,27 +33,14 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
 
     public function getTree()
     {
-//        dd(CategoryGender::with('category')->first());
-        ray()->showQueries();
+        //Depth  2
         return QueryBuilder::for(Gender::class)
-            ->with(['categories', 'categories.children'])
+            ->with(['categories', 'categories.children', 'categories.children.children'])
             ->allowedFilters(
                 [
                     'categories.name',
                 ]
             )
-//            ->defaultSort('-rootCategory.name')
             ->get();
-
-//        return QueryBuilder::for(Category::class)
-//            ->with('children')
-//            ->allowedFilters(
-//                [
-//                    'name',
-//                ]
-//            )
-//            ->whereNull('parent_id')
-//            ->defaultSort('-name')
-//            ->paginate(config('api.pagination.category.tree'));
     }
 }
