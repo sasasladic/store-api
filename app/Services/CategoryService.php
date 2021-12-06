@@ -28,6 +28,7 @@ class CategoryService
                 continue;
             }
             else {
+                $child->gender_id = $gender;
                 array_push($final_category_ids, $child);
                 if (!empty($child->children)) {
                     $final_category_ids = $this->children($child->children, $gender, $final_category_ids);

@@ -75,7 +75,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                 [
                     'name',
                     AllowedFilter::exact('genders.gender'),
-                    'categories.name'
+                    'categories.name',
+                    AllowedFilter::exact('category_gender_id')
                 ]
             )
             ->withoutGlobalScopes(); // Soft delete is a global scope;

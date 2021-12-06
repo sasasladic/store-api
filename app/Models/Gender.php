@@ -16,7 +16,7 @@ class Gender extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany(Category::class)->whereNull('parent_id')->withTimestamps();
+        return $this->belongsToMany(Category::class)->whereNull('parent_id')->withTimestamps()->withPivot('id');
     }
 
 //    public function rootCategory() {

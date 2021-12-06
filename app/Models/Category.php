@@ -44,7 +44,7 @@ class Category extends Model
 
     public function genders()
     {
-        return $this->belongsToMany(Gender::class)->withTimestamps();
+        return $this->belongsToMany(Gender::class)->withTimestamps()->withPivot('id');
     }
 
     /**
