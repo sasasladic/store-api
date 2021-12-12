@@ -65,24 +65,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->paginate(config('admin-panel.pagination.default'));
     }
 
-    public function getAll($limit = 0)
+    public function getAll(array $categoryGenderIds = [], $limit = 0)
     {
-        $categoryGenderIds = [];
-        if (request()->get('category_gender_id')) {
-            $categoryGender = QueryBuilder::for(CategoryGender::class)
-                ->with(['category', 'category.children'])
-                ->where('id', request()->get('category_gender_id'))
-                ->first();
-            $categoryGenderIds = [$categoryGender->id];
-
-            foreach ($categoryGender->category->children as $category) {
-                $categoryGenderItem = $category->checkBelongsToGender($categoryGender->gender_id);
-                if ($categoryGenderItem) {
-                    $categoryGenderIds[] = $categoryGenderItem->pivot->id;
-                }
-            }
-        }
-
         $query = QueryBuilder::for(Product::class)
             ->select('products.*')
             ->join('category_gender', 'products.category_gender_id', 'category_gender.id')

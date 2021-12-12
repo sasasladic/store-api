@@ -5,10 +5,15 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\Admin\Option\Resources\OptionSearchResource;
 use App\Http\Resources\Admin\Product\Resources\ProductVariantsResource;
+use App\Http\Resources\API\Product\Item\ListProductResource;
 use App\Http\Resources\API\Product\Item\ShowProductResource;
+use App\Http\Resources\API\Product\Model\ListObject;
 use App\Http\Resources\API\Product\ProductResource;
+use App\Models\CategoryGender;
 use App\Models\Product;
 use App\Repositories\ProductRepositoryInterface;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends BaseController
 {
@@ -28,17 +33,33 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $allProducts = $this->productRepository->getAll();
+        $categoryGenderIds = [];
+        if ($request->get('category_gender_id')) {
+            $categoryGender = QueryBuilder::for(CategoryGender::class)
+                ->with(['category', 'category.children'])
+                ->where('id', $request->get('category_gender_id'))
+                ->first();
+            $categoryGenderIds = [$categoryGender->id];
+
+            foreach ($categoryGender->category->children as $category) {
+                $categoryGenderItem = $category->checkBelongsToGender($categoryGender->gender_id);
+                if ($categoryGenderItem) {
+                    $categoryGenderIds[] = $categoryGenderItem->pivot->id;
+                }
+            }
+        }
+        $allProducts = $this->productRepository->getAll($categoryGenderIds);
+        $category = $categoryGender ? $categoryGender->category : null;
         if ($allProducts) {
             return $this->returnResponseSuccessWithPagination(
-                ProductResource::collection($allProducts),
+                new ListProductResource(
+                    new ListObject($category, $allProducts)),
                 __('cruds.success.list', ['data' => 'products'])
             );
         }
         return $this->returnResponseError([], 'No categories found');
-
     }
 
     public function show(Product $product)
