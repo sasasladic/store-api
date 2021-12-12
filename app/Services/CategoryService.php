@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\CategoryGender;
 use App\Repositories\CategoryRepositoryInterface;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryService
 {
@@ -51,5 +52,19 @@ class CategoryService
         }
 
         return $genders;
+    }
+
+    public function findCategoryGenderSubcategories($categoryGender)
+    {
+        $categoryGenderIds = [$categoryGender->id];
+
+        foreach ($categoryGender->category->children as $category) {
+            $categoryGenderItem = $category->checkBelongsToGender($categoryGender->gender_id);
+            if ($categoryGenderItem) {
+                $categoryGenderIds[] = $categoryGenderItem->pivot->id;
+            }
+        }
+
+        return $categoryGenderIds;
     }
 }

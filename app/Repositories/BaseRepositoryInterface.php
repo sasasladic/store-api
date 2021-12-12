@@ -14,6 +14,8 @@ interface BaseRepositoryInterface
 
     public function findWithoutGlobalScopes($model, int $id);
 
+    public function findById($model, int $id, array $with = []);
+
     public function softDelete(string $table, int $id, User $user, array $additionalFields = []): int;
 
     public function delete(string $table, int $id): bool;

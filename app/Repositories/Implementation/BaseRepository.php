@@ -43,6 +43,16 @@ class BaseRepository implements BaseRepositoryInterface
         return $model::withoutGlobalScopes()->find($id);
     }
 
+    public function findById($model, int $id, array $with = [])
+    {
+        $query = $model::where('id', $id);
+        if (!empty($with)) {
+            $query->with($with);
+        }
+
+        return $query->first();
+    }
+
     public function softDelete(string $table, int $id, User $user, array $additionalFields = []): int
     {
         return DB::table($table)->where('id', '=', $id)

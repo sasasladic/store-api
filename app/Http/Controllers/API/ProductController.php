@@ -11,7 +11,9 @@ use App\Http\Resources\API\Product\Model\ListObject;
 use App\Http\Resources\API\Product\ProductResource;
 use App\Models\CategoryGender;
 use App\Models\Product;
+use App\Repositories\BaseRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -19,13 +21,21 @@ class ProductController extends BaseController
 {
     private ProductRepositoryInterface $productRepository;
 
+    private CategoryService $categoryService;
+
+    private BaseRepositoryInterface $baseRepository;
+
     /**
      * CategoryController constructor.
      * @param ProductRepositoryInterface $productRepository
+     * @param CategoryService $categoryService
+     * @param BaseRepositoryInterface $baseRepository
      */
-    public function __construct(ProductRepositoryInterface $productRepository)
+    public function __construct(ProductRepositoryInterface $productRepository, CategoryService $categoryService, BaseRepositoryInterface $baseRepository)
     {
         $this->productRepository = $productRepository;
+        $this->categoryService = $categoryService;
+        $this->baseRepository = $baseRepository;
     }
 
     /**
@@ -37,25 +47,20 @@ class ProductController extends BaseController
     {
         $categoryGenderIds = [];
         if ($request->get('category_gender_id')) {
-            $categoryGender = QueryBuilder::for(CategoryGender::class)
-                ->with(['category', 'category.children'])
-                ->where('id', $request->get('category_gender_id'))
-                ->first();
-            $categoryGenderIds = [$categoryGender->id];
-
-            foreach ($categoryGender->category->children as $category) {
-                $categoryGenderItem = $category->checkBelongsToGender($categoryGender->gender_id);
-                if ($categoryGenderItem) {
-                    $categoryGenderIds[] = $categoryGenderItem->pivot->id;
-                }
-            }
+            $categoryGender = $this->baseRepository->findById(
+                CategoryGender::class,
+                $request->get('category_gender_id'),
+                ['category', 'category.children']
+            );
+            $categoryGenderIds = $this->categoryService->findCategoryGenderSubcategories($categoryGender);
         }
         $allProducts = $this->productRepository->getAll($categoryGenderIds);
-        $category = $categoryGender ? $categoryGender->category : null;
+        $category = isset($categoryGender) ? $categoryGender->category : null;
         if ($allProducts) {
             return $this->returnResponseSuccessWithPagination(
                 new ListProductResource(
-                    new ListObject($category, $allProducts)),
+                    new ListObject($category, $allProducts)
+                ),
                 __('cruds.success.list', ['data' => 'products'])
             );
         }

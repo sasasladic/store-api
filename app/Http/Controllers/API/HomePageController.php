@@ -31,7 +31,7 @@ class HomePageController extends BaseController
     public function getAll()
     {
         $genders = $this->categoryService->makeCategoryTree();
-        $products = $this->productRepository->getAll(6);
+        $products = $this->productRepository->getAll([], 6);
 
         return $this->returnResponseSuccess(
             new HomePageItem(
