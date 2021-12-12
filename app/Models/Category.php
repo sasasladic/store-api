@@ -47,6 +47,11 @@ class Category extends Model
         return $this->belongsToMany(Gender::class)->withTimestamps()->withPivot('id');
     }
 
+    public function checkBelongsToGender($gender_id)
+    {
+        return $this->genders()->where('gender_id', $gender_id)->first();
+    }
+
     /**
      * The "booted" method of the model.
      *

@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Implementation;
 
+use App\Models\Category;
+use App\Models\CategoryGender;
 use App\Models\Product;
 use App\Models\ProductOption;
 use App\Models\ProductVariant;
@@ -65,6 +67,22 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
 
     public function getAll($limit = 0)
     {
+        $categoryGenderIds = [];
+        if (request()->get('category_gender_id')) {
+            $categoryGender = QueryBuilder::for(CategoryGender::class)
+                ->with(['category', 'category.children'])
+                ->where('id', request()->get('category_gender_id'))
+                ->first();
+            $categoryGenderIds = [$categoryGender->id];
+
+            foreach ($categoryGender->category->children as $category) {
+                $categoryGenderItem = $category->checkBelongsToGender($categoryGender->gender_id);
+                if ($categoryGenderItem) {
+                    $categoryGenderIds[] = $categoryGenderItem->pivot->id;
+                }
+            }
+        }
+
         $query = QueryBuilder::for(Product::class)
             ->select('products.*')
             ->join('category_gender', 'products.category_gender_id', 'category_gender.id')
@@ -76,10 +94,14 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
                     'name',
                     AllowedFilter::exact('genders.gender'),
                     'categories.name',
-                    AllowedFilter::exact('category_gender_id')
                 ]
-            )
-            ->withoutGlobalScopes(); // Soft delete is a global scope;
+            );
+
+        if ($categoryGenderIds) {
+            $query->whereIn('category_gender_id', $categoryGenderIds);
+        }
+
+        $query->withoutGlobalScopes(); // Soft delete is a global scope;
 
         if ($limit > 0) {
             return $query->take($limit)->get();
