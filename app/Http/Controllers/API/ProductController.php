@@ -6,8 +6,10 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\Admin\Option\Resources\OptionSearchResource;
 use App\Http\Resources\Admin\Product\Resources\ProductVariantsResource;
 use App\Http\Resources\API\Product\Item\ListProductResource;
+use App\Http\Resources\API\Product\Item\ShowProductItem;
 use App\Http\Resources\API\Product\Item\ShowProductResource;
 use App\Http\Resources\API\Product\Model\ListObject;
+use App\Http\Resources\API\Product\Model\ShowProduct;
 use App\Http\Resources\API\Product\ProductResource;
 use App\Models\CategoryGender;
 use App\Models\Product;
@@ -47,11 +49,7 @@ class ProductController extends BaseController
     {
         $categoryGenderIds = [];
         if ($request->get('category_gender_id')) {
-            $categoryGender = $this->baseRepository->findById(
-                CategoryGender::class,
-                $request->get('category_gender_id'),
-                ['category', 'category.children']
-            );
+            $categoryGender = $this->baseRepository->findById(CategoryGender::class, $request->get('category_gender_id'), ['category', 'category.children']);
             $categoryGenderIds = $this->categoryService->findCategoryGenderSubcategories($categoryGender);
         }
         $allProducts = $this->productRepository->getAll($categoryGenderIds);
@@ -69,12 +67,13 @@ class ProductController extends BaseController
 
     public function show(Product $product)
     {
+        //Attributes to Show
         $productAttributes = OptionSearchResource::collection($product->options);
+        $productVariants = $this->productRepository->getAllProductVariants($product->id);
 
         return $this->returnResponseSuccess(
-            new ShowProductResource($product),
-            __('cruds.success.edit', ['model' => 'Product']),
-            ['attributes' => $productAttributes]
+            new ShowProductItem(new ShowProduct($product, $productVariants, $productAttributes)),
+            __('cruds.success.edit', ['model' => 'Product'])
         );
     }
 }
