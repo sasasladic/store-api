@@ -35,7 +35,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         //Depth  2
         return QueryBuilder::for(Gender::class)
-            ->with(['categories', 'categories.children', 'categories.children.children'])
+            ->with(['categories'])
             ->allowedFilters(
                 [
                     'categories.name',
