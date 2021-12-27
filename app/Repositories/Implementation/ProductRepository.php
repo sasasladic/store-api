@@ -69,14 +69,15 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function getAll(array $categoryGenderIds = [], $limit = 0)
     {
         $query = QueryBuilder::for(Product::class)
-            ->select('products.*')
+            ->select('products.*', 'variants.lowest')
             ->join('category_gender', 'products.category_gender_id', 'category_gender.id')
             ->join('genders', 'category_gender.gender_id', 'genders.id')
             ->join('categories', 'category_gender.category_id', 'categories.id')
-//            ->join('product_variants', 'product_variants.product_id', 'products.id')
+            ->uniquePrice()
+            ->join('product_variants', 'product_variants.product_id', 'products.id')
+            ->distinct()
             ->with(['images', 'categoryGender', 'categoryGender.category', 'activeVariants.optionValues']) //maybe remove activeVariants.optionValues
             ->whereHas('activeVariants')
-            ->uniquePrice()
             ->allowedFilters(
                 [
                     'name',

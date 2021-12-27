@@ -17,13 +17,23 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
+        if (isset($this->lowest)) {
+            $price = $this->lowest;
+        }else{
+            if (count($this->activeVariants) > 0) {
+                $price = $this->activeVariants[0]->price;
+            }else{
+                $price = 0;
+            }
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'category' => new CategorySearchResource($this->categoryGender->category),
             'image' => count($this->images) > 0 ? new ProductImagesResource($this->images[0]) : null,
-            'price' => count($this->activeVariants) > 0 ? $this->activeVariants[0]->price : 0
+            'price' => $price
         ];
     }
 }
