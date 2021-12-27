@@ -2,14 +2,15 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Models\Category;
-use App\Models\CategoryGender;
 use App\Models\Product;
 use App\Models\ProductOption;
 use App\Models\ProductVariant;
+use App\QueryBuilder\Filters\Product\FilterPrice;
+use App\QueryBuilder\Filters\Product\FilterSearchTerm;
 use App\Repositories\OptionValueRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductRepository extends BaseRepository implements ProductRepositoryInterface
@@ -72,12 +73,17 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->join('category_gender', 'products.category_gender_id', 'category_gender.id')
             ->join('genders', 'category_gender.gender_id', 'genders.id')
             ->join('categories', 'category_gender.category_id', 'categories.id')
-            ->with(['images', 'categoryGender', 'categoryGender.category'])
+            ->join('product_variants', 'product_variants.product_id', 'products.id')
+            ->with(['images', 'categoryGender', 'categoryGender.category', 'activeVariants.optionValues']) //maybe remove activeVariants.optionValues
+            ->whereHas('activeVariants')
+            ->uniquePrice()
             ->allowedFilters(
                 [
                     'name',
                     AllowedFilter::exact('genders.gender'),
                     'categories.name',
+                    AllowedFilter::custom('searchTerm', new FilterSearchTerm()),
+                    AllowedFilter::custom('price_between', new FilterPrice())
                 ]
             );
 
@@ -85,8 +91,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             $query->whereIn('category_gender_id', $categoryGenderIds);
         }
 
-        $query->withoutGlobalScopes(); // Soft delete is a global scope;
-
+//        $query->withoutGlobalScopes(); // Soft delete is a global scope;
+        $query->allowedSorts(
+            AllowedSort::field('oldest', 'products.created_at'),
+            AllowedSort::field('price', 'variants.lowest'),
+        );
         if ($limit > 0) {
             return $query->take($limit)->get();
         }

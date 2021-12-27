@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Scopes\ActiveScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Spatie\Translatable\HasTranslations;
 use Wildside\Userstamps\Userstamps;
 
@@ -50,6 +52,23 @@ class Product extends Model
             'product_id',
             'option_id'
         )->with('values')->withTimestamps();
+    }
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @param Builder $query
+     * @param null $licenses
+     * @return Builder
+     */
+    public function scopeUniquePrice($query)
+    {
+        return $query->join(
+            DB::raw("( SELECT product_id, MIN(price) as lowest FROM product_variants
+                     group by product_id ) AS variants"),
+            function ($join) {
+                $join->on('products.id', 'variants.product_id');
+            });
     }
 
     /**
