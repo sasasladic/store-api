@@ -73,7 +73,7 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->join('category_gender', 'products.category_gender_id', 'category_gender.id')
             ->join('genders', 'category_gender.gender_id', 'genders.id')
             ->join('categories', 'category_gender.category_id', 'categories.id')
-            ->join('product_variants', 'product_variants.product_id', 'products.id')
+//            ->join('product_variants', 'product_variants.product_id', 'products.id')
             ->with(['images', 'categoryGender', 'categoryGender.category', 'activeVariants.optionValues']) //maybe remove activeVariants.optionValues
             ->whereHas('activeVariants')
             ->uniquePrice()
