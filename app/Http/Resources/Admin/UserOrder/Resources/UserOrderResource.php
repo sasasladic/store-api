@@ -23,7 +23,7 @@ class UserOrderResource extends JsonResource
             'product_variant' => new ProductVariantsResource($this->productVariant),
             'status' => $this->status,
             'quantity' => $this->quantity,
-            'delivered' => $this->delivered,
+            'delivered' => $this->items_sent,
             'created_at' => $this->created_at->format('Y-m-d H:i:S'),
             'created_by' => $this->creator->name,
             'updated_at' => $this->created_at->format('Y-m-d H:i:S'),

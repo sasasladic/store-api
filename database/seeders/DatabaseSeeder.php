@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OptionValuesTableSeeder::class);
         $this->call(ProductsTableSeeder::class);
         $this->call(ProductVariantsTableSeeder::class);
-//        $this->call(UserOrdersTableSeeder::class);
+        $this->call(OrdersTableSeeder::class);
 //        $this->call(TestSeeders::class);
     }
 }

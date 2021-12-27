@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\Admin\UserOrder\Resources\UserOrderResource;
-use App\Repositories\UserOrderRepositoryInterface;
+use App\Repositories\OrderRepositoryInterface;
 use Illuminate\Http\Request;
 
-class UserOrderController extends BaseController
+class OrderController extends BaseController
 {
 
-    private UserOrderRepositoryInterface $userOrderRepository;
+    private OrderRepositoryInterface $orderRepository;
 
     /**
-     * UserOrderController constructor.
-     * @param UserOrderRepositoryInterface $userOrderRepository
+     * OrderController constructor.
+     * @param OrderRepositoryInterface $orderRepository
      */
-    public function __construct(UserOrderRepositoryInterface $userOrderRepository)
+    public function __construct(OrderRepositoryInterface $orderRepository)
     {
-        $this->userOrderRepository = $userOrderRepository;
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -29,7 +29,7 @@ class UserOrderController extends BaseController
     public function index()
     {
         return $this->returnResponseSuccessWithPagination(
-            UserOrderResource::collection($this->userOrderRepository->getAll()),
+            UserOrderResource::collection($this->orderRepository->getAll()),
             __('cruds.success.list', ['data' => 'orders'])
         );
     }

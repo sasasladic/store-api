@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\UserOrder;
+use App\Models\Order;
 use Illuminate\Database\Seeder;
 
-class UserOrdersTableSeeder extends Seeder
+class OrdersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class UserOrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        UserOrder::create(
+        Order::create(
             [
                 'user_id' => 1,
                 'product_variant_id' => 1,
@@ -25,7 +25,7 @@ class UserOrdersTableSeeder extends Seeder
                 'updated_by' => 1
             ]
         );
-        UserOrder::create(
+        Order::create(
             [
                 'user_id' => 1,
                 'product_variant_id' => 2,
@@ -36,7 +36,7 @@ class UserOrdersTableSeeder extends Seeder
                 'updated_by' => 1
             ]
         );
-        UserOrder::create(
+        Order::create(
             [
                 'user_id' => 1,
                 'product_variant_id' => 3,

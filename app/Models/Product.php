@@ -49,7 +49,7 @@ class Product extends Model
             'product_options',
             'product_id',
             'option_id'
-        )->withTimestamps();
+        )->with('values')->withTimestamps();
     }
 
     /**

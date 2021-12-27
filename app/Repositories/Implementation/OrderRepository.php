@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Models\UserOrder;
-use App\Repositories\UserOrderRepositoryInterface;
+use App\Models\Order;
+use App\Repositories\OrderRepositoryInterface;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserOrderRepository extends BaseRepository implements UserOrderRepositoryInterface
+class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
 
     public function getAll()
     {
-        return QueryBuilder::for(UserOrder::class)
+        return QueryBuilder::for(Order::class)
             ->with(['productVariant', 'user'])
             ->allowedFilters(
                 [
@@ -23,5 +23,10 @@ class UserOrderRepository extends BaseRepository implements UserOrderRepositoryI
             )
             ->defaultSort('-id')
             ->paginate(config('admin-panel.pagination.default'));
+    }
+
+    public function makeOrder(array $data)
+    {
+        return Order::create($data);
     }
 }

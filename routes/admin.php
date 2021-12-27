@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OptionController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\UserOrderController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +47,17 @@ Route::group([ 'middleware' => ['auth:api']], function () {
             Route::get('{id}', [ProductController::class, 'editProduct']);
             Route::post('{id}/edit', [ProductController::class, 'updateProduct'])->name('product.update');
 
+            Route::group(['prefix' => '{id}/option'], function () {
+                Route::post('create', [ProductController::class, 'storeProductOptions'])->name('productOptions.store');
+
+                Route::get('', [OptionController::class, 'allProductOptions']);
+//
+//                Route::get('{variantId}', [ProductController::class, 'editProductVariant']);
+//                Route::patch('{variantId}/edit', [ProductController::class, 'updateProductVariant'])->name('productVariant.update');
+//
+//                Route::delete('{variantId}', [ProductController::class, 'deleteProductVariant']);
+            });
+
             Route::group(['prefix' => '{id}/variant'], function () {
                 Route::post('create', [ProductController::class, 'storeProductVariants'])->name('productVariants.store');
 
@@ -64,12 +75,13 @@ Route::group([ 'middleware' => ['auth:api']], function () {
             Route::get('', [OptionController::class, 'allOptions']);
             Route::get('values', [OptionController::class, 'allOptionValues']);
 
+            Route::post('', [OptionController::class, 'store']);
             Route::get('select', [OptionController::class, 'allOptionsSelect']);
             Route::get('values/select', [OptionController::class, 'allOptionValuesSelect']);
         });
 
         Route::group(['prefix' => 'order'], function () {
-            Route::get('', [UserOrderController::class, 'index']);
+            Route::get('', [OrderController::class, 'index']);
         });
 
 //        Route::group(['prefix' => 'user'], function () {

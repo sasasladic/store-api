@@ -6,10 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
 
-class UserOrder extends Model
+class Order extends Model
 {
     use HasFactory, Userstamps;
 
+    const STATUS = [
+        'ordered' => 'O',
+        'sent' => 'S',
+        'delivered' => 'A',
+//        'blocked' => 'B',
+        'waiting' => 'C'
+    ];
+
+    protected $guarded = ['id'];
 
     public function user()
     {

@@ -29,6 +29,7 @@ class CategoryResource extends JsonResource
             'children' => count($this->children) ? self::collection($this->children) : null,
             'parent' => $this->parent ? new CategorySearchResource($this->parent) : null,
             'gender' => $gender,
+            'active' => $this->active,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'created_by' => new UserSearchResource($this->creator),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

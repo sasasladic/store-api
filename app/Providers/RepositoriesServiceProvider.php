@@ -7,12 +7,12 @@ use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\Implementation\BaseRepository;
 use App\Repositories\Implementation\CategoryRepository;
 use App\Repositories\Implementation\OptionValueRepository;
+use App\Repositories\Implementation\OrderRepository;
 use App\Repositories\Implementation\ProductRepository;
-use App\Repositories\Implementation\UserOrderRepository;
 use App\Repositories\Implementation\UserRepository;
 use App\Repositories\OptionValueRepositoryInterface;
+use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
-use App\Repositories\UserOrderRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,7 +29,7 @@ class RepositoriesServiceProvider extends ServiceProvider
         CategoryRepositoryInterface::class => CategoryRepository::class,
         ProductRepositoryInterface::class => ProductRepository::class,
         OptionValueRepositoryInterface::class => OptionValueRepository::class,
-        UserOrderRepositoryInterface::class => UserOrderRepository::class,
+        OrderRepositoryInterface::class => OrderRepository::class,
         UserRepositoryInterface::class => UserRepository::class
     ];
 
