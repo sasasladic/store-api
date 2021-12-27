@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\HomePageController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,7 @@ Route::group(['namespace' => 'API'], function () {
     });
 });
 
-
+Route::post('contact', [UserController::class, 'sendMail']);
 
 Route::group([ 'middleware' => ['auth:api']], function () {
     Route::get('me', [AuthController::class, 'me']);
