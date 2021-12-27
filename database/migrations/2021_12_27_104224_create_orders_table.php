@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             // On update that 'product variant' in_stock, check if needs to send/deliver more. If yes, make calculation for here and how many items are in stock
             // quantity > items_sent, on update action
             $table->integer('items_sent');
+            $table->double('sum');
             $table->string('address');
             $table->foreignId('related_order_id')->nullable()->constrained('orders')->restrictOnDelete();
             $table->timestamps();

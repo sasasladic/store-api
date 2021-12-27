@@ -45,22 +45,26 @@ class OrderController extends BaseController
                 if ($order['quantity'] <= $productVariant->in_stock) {
                     $orderData += [
                         'status' => Order::STATUS['ordered'],
-                        'items_sent' => $order['quantity']
+                        'items_sent' => $order['quantity'],
+                        'sum' => $order['quantity'] * $productVariant->price
                     ];
                     $productVariant->update(
                         [
                             'in_stock' => $productVariant->in_stock - $order['quantity']
-                        ]);
+                        ]
+                    );
                 }else{
                     $orderData += [
                         'status' => Order::STATUS['ordered'],
-                        'items_sent' => $productVariant->in_stock
+                        'items_sent' => $productVariant->in_stock,
+                        'sum' => $productVariant->in_stock * $productVariant->price
                     ];
                     //waiting for stock
                     $splitOrder = [
                         'status' => Order::STATUS['waiting'],
                         'items_sent' => 0,
-                        'quantity' => $order['quantity'] - $productVariant->in_stock
+                        'quantity' => $order['quantity'] - $productVariant->in_stock,
+                        'sum' => ($order['quantity'] - $productVariant->in_stock) * $productVariant->price
                     ];
                     $productVariant->update(
                         [
@@ -70,7 +74,8 @@ class OrderController extends BaseController
             }else{
                 $orderData += [
                     'status' => Order::STATUS['waiting'],
-                    'items_sent' => 0
+                    'items_sent' => 0,
+                    'sum' => $order['quantity'] * $productVariant->price
                 ];
             }
 
