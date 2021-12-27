@@ -81,8 +81,8 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             ->allowedFilters(
                 [
                     'name',
-                    AllowedFilter::exact('genders.gender'),
-                    'categories.name',
+                    AllowedFilter::exact('gender','genders.gender'),
+                    AllowedFilter::partial('category','categories.name'),
                     AllowedFilter::custom('searchTerm', new FilterSearchTerm()),
                     AllowedFilter::custom('price_between', new FilterPrice())
                 ]
