@@ -9,18 +9,16 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
 {
-    public function getAll(bool $admin = true)
+    public function getAll(bool $admin = true, $spatieFilter = true)
     {
-        $queryBuilder = QueryBuilder::for(Category::class)
-//            ->with('parent')
-            ->allowedFilters(
-                [
-                    'name',
-                ]
-            );
+        $queryBuilder = QueryBuilder::for(Category::class);
+
+        if ($spatieFilter) {
+            $queryBuilder->allowedFilters(['name'])->withoutGlobalScopes();
+        }
 
         if ($admin) {
-            return $queryBuilder->withoutGlobalScopes()
+            return $queryBuilder
                 ->defaultSort('-id')
                 ->paginate(config('admin-panel.pagination.default'));
         }

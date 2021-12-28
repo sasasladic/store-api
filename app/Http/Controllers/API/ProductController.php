@@ -6,6 +6,7 @@ use App\Helper\PaginationHelper;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\Admin\Option\Resources\OptionSearchResource;
 use App\Http\Resources\Admin\Product\Resources\ProductVariantsResource;
+use App\Http\Resources\API\Category\SelectCategoryResource;
 use App\Http\Resources\API\Product\Item\ListProductResource;
 use App\Http\Resources\API\Product\Item\ShowProductItem;
 use App\Http\Resources\API\Product\Item\ShowProductResource;
@@ -15,6 +16,7 @@ use App\Http\Resources\API\Product\ProductResource;
 use App\Models\CategoryGender;
 use App\Models\Product;
 use App\Repositories\BaseRepositoryInterface;
+use App\Repositories\CategoryRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
@@ -28,17 +30,27 @@ class ProductController extends BaseController
 
     private BaseRepositoryInterface $baseRepository;
 
+    private CategoryRepositoryInterface $categoryRepository;
+
+
     /**
      * CategoryController constructor.
      * @param ProductRepositoryInterface $productRepository
      * @param CategoryService $categoryService
      * @param BaseRepositoryInterface $baseRepository
+     * @param CategoryRepositoryInterface $categoryRepository
      */
-    public function __construct(ProductRepositoryInterface $productRepository, CategoryService $categoryService, BaseRepositoryInterface $baseRepository)
+    public function __construct(
+        ProductRepositoryInterface $productRepository,
+        CategoryService $categoryService,
+        BaseRepositoryInterface $baseRepository,
+        CategoryRepositoryInterface $categoryRepository
+    )
     {
         $this->productRepository = $productRepository;
         $this->categoryService = $categoryService;
         $this->baseRepository = $baseRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -107,6 +119,11 @@ class ProductController extends BaseController
             }
             return $return;
         });
+
+        if (!$request->get('category_gender_id')) {
+            $allCategories = $this->categoryRepository->getAll(false, false);
+            $filters['categories'] = SelectCategoryResource::collection($allCategories);
+        }
         $paginated = PaginationHelper::paginate($allProducts, 10);
 
         if ($paginated) {
