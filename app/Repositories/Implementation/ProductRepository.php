@@ -98,9 +98,9 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
             AllowedSort::field('price', 'variants.lowest'),
         );
         if ($limit > 0) {
-            return $query->take($limit)->get();
+//            return $query->take($limit)->get();
         }
-
-        return $query->paginate(config('api.pagination.product.index'));
+        return $query->get();
+//        return $query->paginate(config('api.pagination.product.index'));
     }
 }

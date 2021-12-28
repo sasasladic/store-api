@@ -21,7 +21,8 @@ class ListProductResource extends JsonResource
         /** @var $this ListObject */
         return [
             'category' => new ShowCategoryItem($this->getCategory()),
-            'products' => ProductResource::collection($this->getProducts())
+            'products' => ProductResource::collection($this->getProducts()),
+            'filters' => $this->getFilters()
         ];
     }
 }

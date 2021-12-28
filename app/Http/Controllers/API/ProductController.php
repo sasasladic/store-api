@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Helper\PaginationHelper;
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\Admin\Option\Resources\OptionSearchResource;
 use App\Http\Resources\Admin\Product\Resources\ProductVariantsResource;
@@ -54,10 +55,64 @@ class ProductController extends BaseController
         }
         $allProducts = $this->productRepository->getAll($categoryGenderIds);
         $category = isset($categoryGender) ? $categoryGender->category : null;
-        if ($allProducts) {
+
+        $filters = [];
+        $allProducts = $allProducts->filter(function($item) use (&$filters, $request) {
+            $return = false;
+            foreach ($item->activeVariants as $variant) {
+                $color = $request->get('color') ? false : null;
+                $size = $request->get('size') ? false : null;
+                $noFilter = is_null($color) && is_null($size);
+                foreach ($variant->optionValues as $optionValue) {
+                    if (isset($filters[$optionValue->option->name])) {
+                        if (!in_array($optionValue->value, $filters[$optionValue->option->name])) {
+                            $filters[$optionValue->option->name][] = $optionValue->value;
+                        }
+                    }else{
+                        $filters[$optionValue->option->name][] = $optionValue->value;
+                    }
+
+                    if ($noFilter) {
+                        continue;
+                    }
+                    if ($optionValue->option->name == 'Color' && $request->get('color')) {
+                        if (in_array($optionValue->value, $request->get('color'))) {
+                            $color = true;
+                        }
+                    }
+                    if ($optionValue->option->name == 'Size' && $request->get('size')) {
+                        if (in_array($optionValue->value, $request->get('size'))) {
+                            $size = true;
+                        }
+                    }
+                }
+                if ($noFilter) {
+                    $return = true;
+                }else{
+                    if (!$return) {
+                        if (!count($variant->optionValues) == 0) {
+                            $return = $color || $size;
+//                            if (!is_null($color) && !is_null($size)) {
+//                                $return = $color && $size;
+//                            }
+//                            if (!is_null($color) && is_null($size)) {
+//                                $return = $color;
+//                            }
+//                            if (is_null($color) && !is_null($size)) {
+//                                $return = $size;
+//                            }
+                        }
+                    }
+                }
+            }
+            return $return;
+        });
+        $paginated = PaginationHelper::paginate($allProducts, 10);
+
+        if ($paginated) {
             return $this->returnResponseSuccessWithPagination(
                 new ListProductResource(
-                    new ListObject($category, $allProducts)
+                    new ListObject($category, $paginated, $filters)
                 ),
                 __('cruds.success.list', ['data' => 'products'])
             );
