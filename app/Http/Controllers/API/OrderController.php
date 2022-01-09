@@ -31,6 +31,21 @@ class OrderController extends BaseController
 
     }
 
+    public function cancel(int $id)
+    {
+        $order = $this->orderRepository->findById(Order::class, $id);
+        if (!$order) {
+            return $this->returnNotFoundError();
+        }
+        try {
+            $order->update(['status' => Order::STATUS['cancelled']]);
+            return $this->returnResponseSuccess('', 'Order cancelled');
+
+        }catch (\Exception $e) {
+            return $this->returnResponseError([], 'Something went wrong, please try again!', 424);
+        }
+    }
+
     /**
      * @param OrderRequest $request
      * @return \Illuminate\Http\JsonResponse

@@ -40,6 +40,8 @@ Route::group([ 'middleware' => ['auth:api']], function () {
     Route::group(['prefix' => 'order'], function () {
         Route::post('', [OrderController::class, 'makeOrder']);
         Route::get('', [OrderController::class, 'index']);
+
+        Route::get('{id}/cancel', [OrderController::class, 'cancel']);
     });
 });
 
