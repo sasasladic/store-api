@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Order\OrderRequest;
+use App\Http\Resources\API\Order\Resources\OrderResource;
 use App\Models\Order;
 use App\Models\ProductVariant;
 use App\Repositories\OrderRepositoryInterface;
+use Illuminate\Http\Request;
 
 class OrderController extends BaseController
 {
@@ -19,6 +21,14 @@ class OrderController extends BaseController
     public function __construct(OrderRepositoryInterface $orderRepository)
     {
         $this->orderRepository = $orderRepository;
+    }
+
+    public function index(Request $request)
+    {
+        $user = $request->user();
+
+        return $this->returnResponseSuccess(OrderResource::collection($user->orders), 'List of user orders!');
+
     }
 
     /**

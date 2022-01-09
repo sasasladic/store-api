@@ -37,7 +37,10 @@ Route::post('contact', [UserController::class, 'sendMail']);
 Route::group([ 'middleware' => ['auth:api']], function () {
     Route::get('me', [AuthController::class, 'me']);
 
-    Route::post('order', [OrderController::class, 'makeOrder']);
+    Route::group(['prefix' => 'order'], function () {
+        Route::post('', [OrderController::class, 'makeOrder']);
+        Route::get('', [OrderController::class, 'index']);
+    });
 });
 
 
