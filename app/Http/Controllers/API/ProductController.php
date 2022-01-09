@@ -87,12 +87,12 @@ class ProductController extends BaseController
                     if ($noFilter) {
                         continue;
                     }
-                    if ($optionValue->option->name == 'Color' && $request->get('color')) {
+                    if ($optionValue->option->name == 'color' && $request->get('color')) {
                         if (in_array($optionValue->value, $request->get('color'))) {
                             $color = true;
                         }
                     }
-                    if ($optionValue->option->name == 'Size' && $request->get('size')) {
+                    if ($optionValue->option->name == 'size' && $request->get('size')) {
                         if (in_array($optionValue->value, $request->get('size'))) {
                             $size = true;
                         }
