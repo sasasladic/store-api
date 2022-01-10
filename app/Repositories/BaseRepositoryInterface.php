@@ -12,7 +12,7 @@ interface BaseRepositoryInterface
 
     public function update(string $table, int $id, array $data, User $user): int;
 
-    public function findWithoutGlobalScopes($model, int $id);
+    public function findWithoutGlobalScopes($model, int $id, array $with = []);
 
     public function findById($model, int $id, array $with = []);
 

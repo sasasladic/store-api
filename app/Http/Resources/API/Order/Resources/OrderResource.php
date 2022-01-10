@@ -22,7 +22,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'quantity' => $this->quantity,
             'status' => array_search ($this->status, Order::STATUS),
-            'total_sum' => $this->sum,
+            'sum' => $this->sum,
             'address' => $this->address,
             'ordered_at' => $this->created_at->format('d-m-Y H:i:s'),
             'updated_at' => $this->updated_at->format('d-m-Y H:i:s'),

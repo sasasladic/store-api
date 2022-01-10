@@ -3,25 +3,38 @@
 namespace App\Repositories\Implementation;
 
 use App\Models\Order;
+use App\QueryBuilder\Filters\Product\FilterPrice;
 use App\Repositories\OrderRepositoryInterface;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
 
-    public function getAll()
+    public function getAll(int $userId = null)
     {
-        return QueryBuilder::for(Order::class)
+        $query = QueryBuilder::for(Order::class)
             ->with(['productVariant', 'user'])
             ->allowedFilters(
                 [
                     'productVariant.sku',
-                    'user.id',
+                    AllowedFilter::exact('user', 'user.id'),
                     'user.name',
-                    'user.email'
+                    'user.email',
+                    'created_at',
+                    AllowedFilter::scope('created_between')
                 ]
+            );
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+        return $query->defaultSort('-id')
+            ->allowedSorts(
+                'id',
+                AllowedSort::field('last_updated', 'updated_at'),
+                'sum',
             )
-            ->defaultSort('-id')
             ->paginate(config('admin-panel.pagination.default'));
     }
 

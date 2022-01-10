@@ -25,10 +25,7 @@ class OrderController extends BaseController
 
     public function index(Request $request)
     {
-        $user = $request->user();
-
-        return $this->returnResponseSuccess(OrderResource::collection($user->orders), 'List of user orders!');
-
+        return $this->returnResponseSuccess(OrderResource::collection($this->orderRepository->getAll($request->user()->id)), 'List of user orders!');
     }
 
     public function cancel(int $id)

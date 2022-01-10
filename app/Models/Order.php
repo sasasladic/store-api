@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wildside\Userstamps\Userstamps;
@@ -15,7 +16,8 @@ class Order extends Model
         'sent' => 'S',
         'delivered' => 'A',
 //        'blocked' => 'B',
-        'waiting' => 'C'
+        'waiting' => 'W',
+        'cancelled' => 'C'
     ];
 
     protected $guarded = ['id'];
@@ -29,5 +31,10 @@ class Order extends Model
     public function productVariant()
     {
         return $this->belongsTo(ProductVariant::class, 'product_variant_id')->withoutGlobalScopes();
+    }
+
+    public function scopeCreatedBetween(Builder $query, $start, $end): Builder
+    {
+        return $query->whereBetween('created_at', [$start . ' 00:00:00', $end . ' 23:59:59']);
     }
 }

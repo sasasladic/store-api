@@ -38,9 +38,15 @@ class BaseRepository implements BaseRepositoryInterface
             );
     }
 
-    public function findWithoutGlobalScopes($model, int $id)
+    public function findWithoutGlobalScopes($model, int $id, array $with = [])
     {
-        return $model::withoutGlobalScopes()->find($id);
+        $query = $model::withoutGlobalScopes();
+
+        if (!empty($with)) {
+            $query->with($with);
+        }
+
+        return $query->find($id);
     }
 
     public function findById($model, int $id, array $with = [])
