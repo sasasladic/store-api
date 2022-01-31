@@ -28,7 +28,8 @@ class CreateUpdateRequest extends FormRequest
             'name.*' => 'required|unique_translation:categories|string|min:3|max:30',
             'description.*' => 'string|min:6|max:250',
             'active' => 'boolean',
-            'parent_id' => 'nullable|integer'
+            'parent_id' => 'nullable|integer',
+            'gender_id' => 'required|integer'
         ];
     }
 }

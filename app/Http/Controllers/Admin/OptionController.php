@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\Option\CreateUpdateRequest;
 use App\Http\Resources\Admin\Option\Resources\OptionResource;
 use App\Http\Resources\Admin\Option\Resources\OptionSearchResource;
 use App\Http\Resources\Admin\Option\Resources\OptionValueResource;
 use App\Http\Resources\Admin\Option\Select\OptionValueSearchResource;
+use App\Models\Option;
+use App\Models\OptionValue;
+use App\Models\Product;
 use App\Repositories\OptionValueRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OptionController extends BaseController
 {
@@ -33,6 +38,19 @@ class OptionController extends BaseController
     {
         return $this->returnResponseSuccessWithPagination(
             OptionResource::collection($this->optionRepository->getAll()),
+            __('cruds.success.list', ['data' => 'Options'])
+        );
+    }
+
+    public function allProductOptions(int $id)
+    {
+        $product = $this->optionRepository->findWithoutGlobalScopes(Product::class, $id);
+        if (!$product) {
+            return $this->returnNotFoundError();
+        }
+
+        return $this->returnResponseSuccessWithPagination(
+            OptionSearchResource::collection($product->options),
             __('cruds.success.list', ['data' => 'Options'])
         );
     }
@@ -90,22 +108,56 @@ class OptionController extends BaseController
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(CreateUpdateRequest $request)
     {
-        //
+        $user = $request->user();
+        $validatedData = $request->validated();
+        if (!$validatedData) {
+            return $this->returnResponseError([], 'No valid data!', 422);
+        }
+//        dd($validatedData + ['test' => '3213123sdds']);
+        $option = $this->optionRepository->store(Option::class, ['name' => $validatedData['name']]);
+        $data = [];
+        foreach ($validatedData['values'] as $item) {
+            $data[] = [
+                'option_id' => $option->id,
+                'value' => $item['value'],
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => null,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+                'deleted_by' => null
+            ];
+        }
+        try {
+            OptionValue::insert($data);
+
+            return $this->returnResponseSuccess([], 'Success!');
+        }catch (\Exception $exception) {
+            return $this->returnResponseError([], 'Something went wrong', $exception->getCode());
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function edit($id)
     {
-        //
+        $option = $this->optionRepository->findWithoutGlobalScopes(Option::class, $id);
+        if (!$option) {
+            return $this->returnNotFoundError();
+        }
+
+        return $this->returnResponseSuccess(
+            new OptionResource($option),
+            __('cruds.success.edit', ['model' => 'Option'])
+        );
     }
 
     /**
@@ -114,7 +166,7 @@ class OptionController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function show($id)
     {
         //
     }
@@ -135,10 +187,15 @@ class OptionController extends BaseController
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $deleted = $this->optionRepository->softDelete(app(Option::class)->getTable(), $id, $request->user());
+        if ($deleted) {
+            return $this->returnResponseSuccess([],  __('cruds.success.deleted', ['model' => 'Attribute']));
+        }
+
+        return $this->returnResponseError([],  __('cruds.error.deleted', ['model' => 'Attribute']));
     }
 }

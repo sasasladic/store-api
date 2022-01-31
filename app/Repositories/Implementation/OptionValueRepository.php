@@ -5,6 +5,7 @@ namespace App\Repositories\Implementation;
 use App\Models\Option;
 use App\Models\OptionValue;
 use App\Repositories\OptionValueRepositoryInterface;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class OptionValueRepository extends BaseRepository implements OptionValueRepositoryInterface
@@ -28,7 +29,7 @@ class OptionValueRepository extends BaseRepository implements OptionValueReposit
         return QueryBuilder::for(OptionValue::class)
             ->allowedFilters(
                 [
-                    'option.id',
+                    AllowedFilter::exact('option.id'),
                     'value',
                 ]
             )

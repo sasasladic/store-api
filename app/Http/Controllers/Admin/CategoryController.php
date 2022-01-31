@@ -70,7 +70,15 @@ class CategoryController extends BaseController
     public function store(CreateUpdateRequest $request)
     {
         try {
-            $category = Category::create($request->validated());
+            $categoryData = $request->except('gender_id');
+            $category = Category::create($categoryData);
+
+            if ($request->gender_id == 3) {
+                $genderIds = [1,2];
+            }else{
+                $genderIds = [$request->gender_id];
+            }
+            $category->genders()->attach($genderIds);
 
             return $this->returnResponseSuccess(['category_id' => $category->id], __('cruds.success.stored'));
         }catch (\Exception $exception) {

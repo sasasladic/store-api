@@ -75,8 +75,10 @@ Route::group([ 'middleware' => ['auth:api']], function () {
             Route::get('', [OptionController::class, 'allOptions']);
             Route::get('values', [OptionController::class, 'allOptionValues']);
 
-            Route::post('', [OptionController::class, 'store']);
             Route::get('select', [OptionController::class, 'allOptionsSelect']);
+            Route::post('', [OptionController::class, 'store']);
+            Route::delete('{id}', [OptionController::class, 'destroy']);
+            Route::get('{id}', [OptionController::class, 'edit']);
             Route::get('values/select', [OptionController::class, 'allOptionValuesSelect']);
         });
 
@@ -84,9 +86,11 @@ Route::group([ 'middleware' => ['auth:api']], function () {
             Route::get('', [OrderController::class, 'index']);
         });
 
-//        Route::group(['prefix' => 'user'], function () {
-//            Route::get('', [UserController::class, 'index']);
-//        });
+        Route::group(['prefix' => 'user'], function () {
+            Route::group(['prefix' => '{id}/order'], function () {
+                Route::get('', [OrderController::class, 'userOrders']);
+            });
+        });
 
 
     });

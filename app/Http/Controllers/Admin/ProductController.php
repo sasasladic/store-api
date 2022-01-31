@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helper\ImageHelper;
 use App\Helper\TranslationHelper;
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\Product\CreateUpdateProductOptionsRequest;
 use App\Http\Requests\Product\CreateUpdateProductVariantRequest;
 use App\Http\Requests\Product\CreateUpdateRequest;
 use App\Http\Resources\Admin\Category\Item\CreateCategoryItem;
@@ -54,7 +55,8 @@ class ProductController extends BaseController
      */
     public function allProducts()
     {
-        $allProducts = $this->productRepository->index(Product::class, ['categoryGender']);
+//        $allProducts = $this->productRepository->index(Product::class, ['categoryGender']);
+        $allProducts = $this->productRepository->adminGetAll();
 
         return $this->returnResponseSuccessWithPagination(
             ProductResource::collection($allProducts),
@@ -92,8 +94,7 @@ class ProductController extends BaseController
     public function storeProduct(CreateUpdateRequest $request)
     {
         try {
-
-        $author = $request->user();
+            $author = $request->user();
             $validatedData = $request->validated();
             if ($validatedData['images']) {
                 unset($validatedData['images']);
@@ -174,6 +175,32 @@ class ProductController extends BaseController
                 ['product_id' => $id],
                 __('cruds.success.updated', ['model' => 'Product'])
             );
+        } catch (\Exception $exception) {
+            return $this->returnResponseError([], __('cruds.errors.db_fail'));
+        }
+    }
+
+    public function storeProductOptions(CreateUpdateProductOptionsRequest $request, int $id)
+    {
+        $product = $this->productRepository->findWithoutGlobalScopes(Product::class, $id);
+        if (!$product) {
+            return $this->returnNotFoundError();
+        }
+
+        $validatedData = $request->validated();
+        if (!$validatedData['attributes']) {
+            return $this->returnResponseError([], __('cruds.errors.empty_array'));
+        }
+        $attributeIds = [];
+        foreach ($validatedData['attributes'] as $attribute) {
+            $attributeIds[] = $attribute['attributes_data']['id'];
+        }
+        $attributeIds = array_unique($attributeIds);
+
+        try {
+            $product->options()->attach($attributeIds);
+
+            return $this->returnResponseSuccess([], __('cruds.success.stored'));
         } catch (\Exception $exception) {
             return $this->returnResponseError([], __('cruds.errors.db_fail'));
         }

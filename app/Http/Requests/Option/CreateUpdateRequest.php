@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Product;
+namespace App\Http\Requests\Option;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
@@ -25,13 +25,9 @@ class CreateUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name.*' => 'required|unique_translation:products|string|min:3|max:50',
-            'description.*' => 'string|min:6|max:250',
-            'active' => 'boolean',
-            'category_id' => 'nullable|integer',
-            'gender' => 'required|integer',
-            'images' => 'required',
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'name' => 'required|unique:options,name|string|min:3|max:50',
+            'values' => 'required|array',
+            'values.*.value' => 'required|string|min:1|max:10'
         ];
     }
 }

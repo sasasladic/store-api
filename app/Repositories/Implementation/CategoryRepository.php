@@ -26,7 +26,8 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         return $queryBuilder
             ->whereDoesntHave('children')
             ->defaultSort('-name')
-            ->paginate(config('api.pagination.category.index'));
+//            ->paginate(config('api.pagination.category.index')); ako ne radi odk ovo
+            ->get();
     }
 
     public function getTree()

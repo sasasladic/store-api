@@ -12,6 +12,10 @@ class Option extends Model
 
     protected $guarded = ['id'];
 
+    protected $dates = [
+        'deleted_at',
+    ];
+
     public function values()
     {
         return $this->hasMany(OptionValue::class);

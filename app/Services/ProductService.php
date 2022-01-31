@@ -30,6 +30,7 @@ class ProductService
     {
         $optionValues = [];
         foreach ($variantValues as $variantValue) {
+            //Chekiraj da li postoji vec veza
             $this->productRepository->createProductOptionRelation($productId, $variantValue['option_id'], $userId);
 
             // if (!$optionValue) - Not possible, because it's predefined and selected from dropdown

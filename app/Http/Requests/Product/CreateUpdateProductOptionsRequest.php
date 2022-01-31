@@ -5,7 +5,7 @@ namespace App\Http\Requests\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
 
-class CreateUpdateProductVariantRequest extends FormRequest
+class CreateUpdateProductOptionsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,17 +24,14 @@ class CreateUpdateProductVariantRequest extends FormRequest
      */
     public function rules()
     {
-        if (Route::is('productVariant.update')) {
+        if (Route::is('productOptions.update')) {
             return $this->updateRules();
         }
         return [
-            'variants' => 'required|array',
-            'variants.*.variant_data.sku' => 'required|unique:product_variants,sku|min:2|max:10',//Most important, so there is no duplications
-            'variants.*.variant_data.price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
-            'variants.*.variant_data.in_stock' => 'required|integer',
-            'variants.*.variant_values' => 'required|array',
-            'variants.*.variant_values.*.option_id' => 'required|integer',
-            'variants.*.variant_values.*.value' => 'required|string',
+            'attributes' => 'required|array',
+            'attributes.*.attributes_data' => 'required|array',
+            'attributes.*.attributes_data.id' => 'required|integer',
+            'attributes.*.attributes_data.name' => 'required|string',
         ];
     }
 

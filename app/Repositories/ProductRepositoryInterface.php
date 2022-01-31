@@ -12,4 +12,6 @@ interface ProductRepositoryInterface extends BaseRepositoryInterface
     public function getAllProductVariants(int $productId);
 
     public function getAll(array $categoryGenderIds = [], int $limit = 0);
+
+    public function adminGetAll();
 }

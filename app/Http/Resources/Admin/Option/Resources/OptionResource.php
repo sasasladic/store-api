@@ -24,6 +24,7 @@ class OptionResource extends JsonResource
             'created_by' => new UserSearchResource($this->creator),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'updated_by' => new UserSearchResource($this->editor),
+            'deleted_at' => $this->deleted_at ? $this->deleted_at->format('Y-m-d H:i:s') : null,
         ];
     }
 }

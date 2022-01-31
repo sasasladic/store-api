@@ -103,4 +103,31 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
         return $query->get();
 //        return $query->paginate(config('api.pagination.product.index'));
     }
+
+    public function adminGetAll()
+    {
+        $query = QueryBuilder::for(Product::class)
+            ->select('products.*')
+            ->join('category_gender', 'products.category_gender_id', 'category_gender.id')
+            ->join('categories', 'category_gender.category_id', 'categories.id')
+            ->with(['categoryGender']) //maybe remove activeVariants.optionValues
+            ->allowedFilters(
+                [
+//                    'name',
+//                    'id',
+//                    AllowedFilter::exact('gender','genders.gender'),
+//                    AllowedFilter::partial('category','categories.name'),
+                    AllowedFilter::custom('searchTerm', new FilterSearchTerm()),
+//                    AllowedFilter::custom('price_between', new FilterPrice())
+                ]
+            );
+        $query->withoutGlobalScopes() // Soft delete is a global scope;
+        ->allowedSorts(
+            AllowedSort::field('oldest', 'products.created_at'),
+            AllowedSort::field('price', 'variants.lowest'),
+        );
+
+        return $query->paginate(config('api.pagination.product.index'));
+    }
+
 }

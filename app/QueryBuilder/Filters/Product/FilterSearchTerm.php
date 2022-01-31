@@ -12,7 +12,8 @@ class FilterSearchTerm implements Filter
     {
         return $query->where(function (Builder $q) use ($value) {
             $q->where('products.name', 'LIKE', '%' . $value . '%')
-                ->orWhere('categories.name', 'LIKE', '%' . $value . '%');
+                ->orWhere('categories.name', 'LIKE', '%' . $value . '%')
+                ->orWhere('products.id', $value);
         });
     }
 }

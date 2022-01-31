@@ -4,6 +4,7 @@ namespace App\Http\Resources\Admin\UserOrder\Resources;
 
 use App\Http\Resources\Admin\Product\Resources\ProductVariantsResource;
 use App\Http\Resources\Admin\User\Resources\UserSearchResource;
+use App\Models\Order;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserOrderResource extends JsonResource
@@ -21,8 +22,9 @@ class UserOrderResource extends JsonResource
             'id' => $this->id,
             'user' => new UserSearchResource($this->user),
             'product_variant' => new ProductVariantsResource($this->productVariant),
-            'status' => $this->status,
+            'status' => array_search ($this->status, Order::STATUS),
             'quantity' => $this->quantity,
+            'sum' => $this->sum,
             'delivered' => $this->items_sent,
             'created_at' => $this->created_at->format('Y-m-d H:i:S'),
             'created_by' => $this->creator->name,

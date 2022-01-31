@@ -1,0 +1,1010 @@
+App\Models\Gender {#1345
+  #guarded: array:1 [
+    0 => "id"
+  ]
+  #connection: "mysql"
+  #table: "genders"
+  #primaryKey: "id"
+  #keyType: "int"
+  +incrementing: true
+  #with: []
+  #withCount: []
+  +preventsLazyLoading: false
+  #perPage: 15
+  +exists: true
+  +wasRecentlyCreated: false
+  #attributes: array:5 [
+    "id" => 1
+    "gender" => "Male"
+    "image_path" => null
+    "created_at" => "2021-10-23 00:02:30"
+    "updated_at" => "2021-10-23 00:02:30"
+  ]
+  #original: array:5 [
+    "id" => 1
+    "gender" => "Male"
+    "image_path" => null
+    "created_at" => "2021-10-23 00:02:30"
+    "updated_at" => "2021-10-23 00:02:30"
+  ]
+  #changes: []
+  #casts: []
+  #classCastCache: []
+  #dates: []
+  #dateFormat: null
+  #appends: []
+  #dispatchesEvents: []
+  #observables: []
+  #relations: array:1 [
+    "categories" => Illuminate\Database\Eloquent\Collection {#1362
+      #items: array:2 [
+        0 => App\Models\Category {#1384
+          +translatable: array:2 [
+            0 => "name"
+            1 => "description"
+          ]
+          #guarded: array:1 [
+            0 => "id"
+          ]
+          #connection: "mysql"
+          #table: "categories"
+          #primaryKey: "id"
+          #keyType: "int"
+          +incrementing: true
+          #with: []
+          #withCount: []
+          +preventsLazyLoading: false
+          #perPage: 15
+          +exists: true
+          +wasRecentlyCreated: false
+          #attributes: array:12 [
+            "id" => 1
+            "name" => "{"en":"Shoes","de":"Schuhe"}"
+            "parent_id" => null
+            "description" => "{"en":"Casual desc","de":"Beil\u00e4ufig desc"}"
+            "active" => 1
+            "created_at" => "2021-10-23 00:02:30"
+            "updated_at" => "2021-10-23 00:02:30"
+            "deleted_at" => null
+            "created_by" => null
+            "updated_by" => null
+            "deleted_by" => null
+            "childrensa" => array:3 [
+              0 => App\Models\Category {#1420
+                +translatable: array:2 [
+                  0 => "name"
+                  1 => "description"
+                ]
+                #guarded: array:1 [
+                  0 => "id"
+                ]
+                #connection: "mysql"
+                #table: "categories"
+                #primaryKey: "id"
+                #keyType: "int"
+                +incrementing: true
+                #with: []
+                #withCount: []
+                +preventsLazyLoading: false
+                #perPage: 15
+                +exists: true
+                +wasRecentlyCreated: false
+                #attributes: array:11 [
+                  "id" => 2
+                  "name" => "{"en":"Sneakers","de":"Turnschuhe"}"
+                  "parent_id" => 1
+                  "description" => "{"en":"Sneakers desc","de":"Turnschuhe desc"}"
+                  "active" => 1
+                  "created_at" => "2021-10-23 00:02:30"
+                  "updated_at" => "2021-10-23 00:02:30"
+                  "deleted_at" => null
+                  "created_by" => null
+                  "updated_by" => null
+                  "deleted_by" => null
+                ]
+                #original: array:11 [
+                  "id" => 2
+                  "name" => "{"en":"Sneakers","de":"Turnschuhe"}"
+                  "parent_id" => 1
+                  "description" => "{"en":"Sneakers desc","de":"Turnschuhe desc"}"
+                  "active" => 1
+                  "created_at" => "2021-10-23 00:02:30"
+                  "updated_at" => "2021-10-23 00:02:30"
+                  "deleted_at" => null
+                  "created_by" => null
+                  "updated_by" => null
+                  "deleted_by" => null
+                ]
+                #changes: []
+                #casts: array:1 [
+                  "deleted_at" => "datetime"
+                ]
+                #classCastCache: []
+                #dates: []
+                #dateFormat: null
+                #appends: []
+                #dispatchesEvents: []
+                #observables: []
+                #relations: array:1 [
+                  "children" => Illuminate\Database\Eloquent\Collection {#1410
+                    #items: []
+                  }
+                ]
+                #touches: []
+                +timestamps: true
+                #hidden: []
+                #visible: []
+                #fillable: []
+                #userstamping: true
+                #forceDeleting: false
+                #translationLocale: null
+              }
+              1 => App\Models\Category {#1350
+                +translatable: array:2 [
+                  0 => "name"
+                  1 => "description"
+                ]
+                #guarded: array:1 [
+                  0 => "id"
+                ]
+                #connection: "mysql"
+                #table: "categories"
+                #primaryKey: "id"
+                #keyType: "int"
+                +incrementing: true
+                #with: []
+                #withCount: []
+                +preventsLazyLoading: false
+                #perPage: 15
+                +exists: true
+                +wasRecentlyCreated: false
+                #attributes: array:11 [
+                  "id" => 3
+                  "name" => "{"en":"Running shoes","de":"Laufschuhe"}"
+                  "parent_id" => 1
+                  "description" => "{"en":"Running shoes desc","de":"Laufschuhe desc"}"
+                  "active" => 1
+                  "created_at" => "2021-10-23 00:02:30"
+                  "updated_at" => "2021-10-23 00:02:30"
+                  "deleted_at" => null
+                  "created_by" => null
+                  "updated_by" => null
+                  "deleted_by" => null
+                ]
+                #original: array:11 [
+                  "id" => 3
+                  "name" => "{"en":"Running shoes","de":"Laufschuhe"}"
+                  "parent_id" => 1
+                  "description" => "{"en":"Running shoes desc","de":"Laufschuhe desc"}"
+                  "active" => 1
+                  "created_at" => "2021-10-23 00:02:30"
+                  "updated_at" => "2021-10-23 00:02:30"
+                  "deleted_at" => null
+                  "created_by" => null
+                  "updated_by" => null
+                  "deleted_by" => null
+                ]
+                #changes: []
+                #casts: array:1 [
+                  "deleted_at" => "datetime"
+                ]
+                #classCastCache: []
+                #dates: []
+                #dateFormat: null
+                #appends: []
+                #dispatchesEvents: []
+                #observables: []
+                #relations: array:1 [
+                  "children" => Illuminate\Database\Eloquent\Collection {#1404
+                    #items: []
+                  }
+                ]
+                #touches: []
+                +timestamps: true
+                #hidden: []
+                #visible: []
+                #fillable: []
+                #userstamping: true
+                #forceDeleting: false
+                #translationLocale: null
+              }
+              2 => App\Models\Category {#1351
+                +translatable: array:2 [
+                  0 => "name"
+                  1 => "description"
+                ]
+                #guarded: array:1 [
+                  0 => "id"
+                ]
+                #connection: "mysql"
+                #table: "categories"
+                #primaryKey: "id"
+                #keyType: "int"
+                +incrementing: true
+                #with: []
+                #withCount: []
+                +preventsLazyLoading: false
+                #perPage: 15
+                +exists: true
+                +wasRecentlyCreated: false
+                #attributes: array:11 [
+                  "id" => 4
+                  "name" => "{"en":"Sandals & Slippers","de":"Sandalen und Hausschuhe"}"
+                  "parent_id" => 1
+                  "description" => "{"en":"Sandals & Slippers desc","de":"Sandalen und Hausschuhe desc"}"
+                  "active" => 1
+                  "created_at" => "2021-10-23 00:02:30"
+                  "updated_at" => "2021-10-23 00:02:30"
+                  "deleted_at" => null
+                  "created_by" => null
+                  "updated_by" => null
+                  "deleted_by" => null
+                ]
+                #original: array:11 [
+                  "id" => 4
+                  "name" => "{"en":"Sandals & Slippers","de":"Sandalen und Hausschuhe"}"
+                  "parent_id" => 1
+                  "description" => "{"en":"Sandals & Slippers desc","de":"Sandalen und Hausschuhe desc"}"
+                  "active" => 1
+                  "created_at" => "2021-10-23 00:02:30"
+                  "updated_at" => "2021-10-23 00:02:30"
+                  "deleted_at" => null
+                  "created_by" => null
+                  "updated_by" => null
+                  "deleted_by" => null
+                ]
+                #changes: []
+                #casts: array:1 [
+                  "deleted_at" => "datetime"
+                ]
+                #classCastCache: []
+                #dates: []
+                #dateFormat: null
+                #appends: []
+                #dispatchesEvents: []
+                #observables: []
+                #relations: array:1 [
+                  "children" => Illuminate\Database\Eloquent\Collection {#1415
+                    #items: []
+                  }
+                ]
+                #touches: []
+                +timestamps: true
+                #hidden: []
+                #visible: []
+                #fillable: []
+                #userstamping: true
+                #forceDeleting: false
+                #translationLocale: null
+              }
+            ]
+          ]
+          #original: array:15 [
+            "id" => 1
+            "name" => "{"en":"Shoes","de":"Schuhe"}"
+            "parent_id" => null
+            "description" => "{"en":"Casual desc","de":"Beil\u00e4ufig desc"}"
+            "active" => 1
+            "created_at" => "2021-10-23 00:02:30"
+            "updated_at" => "2021-10-23 00:02:30"
+            "deleted_at" => null
+            "created_by" => null
+            "updated_by" => null
+            "deleted_by" => null
+            "pivot_gender_id" => 1
+            "pivot_category_id" => 1
+            "pivot_created_at" => "2021-10-23 00:02:30"
+            "pivot_updated_at" => "2021-10-23 00:02:30"
+          ]
+          #changes: []
+          #casts: array:1 [
+            "deleted_at" => "datetime"
+          ]
+          #classCastCache: []
+          #dates: []
+          #dateFormat: null
+          #appends: []
+          #dispatchesEvents: []
+          #observables: []
+          #relations: array:2 [
+            "pivot" => Illuminate\Database\Eloquent\Relations\Pivot {#1396
+              +incrementing: false
+              #guarded: []
+              #connection: null
+              #table: "category_gender"
+              #primaryKey: "id"
+              #keyType: "int"
+              #with: []
+              #withCount: []
+              +preventsLazyLoading: false
+              #perPage: 15
+              +exists: true
+              +wasRecentlyCreated: false
+              #attributes: array:4 [
+                "gender_id" => 1
+                "category_id" => 1
+                "created_at" => "2021-10-23 00:02:30"
+                "updated_at" => "2021-10-23 00:02:30"
+              ]
+              #original: array:4 [
+                "gender_id" => 1
+                "category_id" => 1
+                "created_at" => "2021-10-23 00:02:30"
+                "updated_at" => "2021-10-23 00:02:30"
+              ]
+              #changes: []
+              #casts: []
+              #classCastCache: []
+              #dates: []
+              #dateFormat: null
+              #appends: []
+              #dispatchesEvents: []
+              #observables: []
+              #relations: []
+              #touches: []
+              +timestamps: true
+              #hidden: []
+              #visible: []
+              #fillable: []
+              +pivotParent: App\Models\Gender {#1342
+                #guarded: array:1 [
+                  0 => "id"
+                ]
+                #connection: null
+                #table: "genders"
+                #primaryKey: "id"
+                #keyType: "int"
+                +incrementing: true
+                #with: []
+                #withCount: []
+                +preventsLazyLoading: false
+                #perPage: 15
+                +exists: false
+                +wasRecentlyCreated: false
+                #attributes: []
+                #original: []
+                #changes: []
+                #casts: []
+                #classCastCache: []
+                #dates: []
+                #dateFormat: null
+                #appends: []
+                #dispatchesEvents: []
+                #observables: []
+                #relations: []
+                #touches: []
+                +timestamps: true
+                #hidden: []
+                #visible: []
+                #fillable: []
+              }
+              #foreignKey: "gender_id"
+              #relatedKey: "category_id"
+            }
+            "children" => Illuminate\Database\Eloquent\Collection {#1394
+              #items: array:3 [
+                0 => App\Models\Category {#1420}
+                1 => App\Models\Category {#1350}
+                2 => App\Models\Category {#1351}
+              ]
+            }
+          ]
+          #touches: []
+          +timestamps: true
+          #hidden: []
+          #visible: []
+          #fillable: []
+          #userstamping: true
+          #forceDeleting: false
+          #translationLocale: null
+        }
+        1 => App\Models\Category {#1386
+          +translatable: array:2 [
+            0 => "name"
+            1 => "description"
+          ]
+          #guarded: array:1 [
+            0 => "id"
+          ]
+          #connection: "mysql"
+          #table: "categories"
+          #primaryKey: "id"
+          #keyType: "int"
+          +incrementing: true
+          #with: []
+          #withCount: []
+          +preventsLazyLoading: false
+          #perPage: 15
+          +exists: true
+          +wasRecentlyCreated: false
+          #attributes: array:12 [
+            "id" => 5
+            "name" => "{"en":"Clothes","de":"Kleider"}"
+            "parent_id" => null
+            "description" => "{"en":"Clothes desc","de":"Kleider desc"}"
+            "active" => 1
+            "created_at" => "2021-10-23 00:02:30"
+            "updated_at" => "2021-10-23 00:02:30"
+            "deleted_at" => null
+            "created_by" => null
+            "updated_by" => null
+            "deleted_by" => null
+            "childrensa" => null
+          ]
+          #original: array:15 [
+            "id" => 5
+            "name" => "{"en":"Clothes","de":"Kleider"}"
+            "parent_id" => null
+            "description" => "{"en":"Clothes desc","de":"Kleider desc"}"
+            "active" => 1
+            "created_at" => "2021-10-23 00:02:30"
+            "updated_at" => "2021-10-23 00:02:30"
+            "deleted_at" => null
+            "created_by" => null
+            "updated_by" => null
+            "deleted_by" => null
+            "pivot_gender_id" => 1
+            "pivot_category_id" => 5
+            "pivot_created_at" => "2021-10-23 00:02:30"
+            "pivot_updated_at" => "2021-10-23 00:02:30"
+          ]
+          #changes: []
+          #casts: array:1 [
+            "deleted_at" => "datetime"
+          ]
+          #classCastCache: []
+          #dates: []
+          #dateFormat: null
+          #appends: []
+          #dispatchesEvents: []
+          #observables: []
+          #relations: array:2 [
+            "pivot" => Illuminate\Database\Eloquent\Relations\Pivot {#1371
+              +incrementing: false
+              #guarded: []
+              #connection: null
+              #table: "category_gender"
+              #primaryKey: "id"
+              #keyType: "int"
+              #with: []
+              #withCount: []
+              +preventsLazyLoading: false
+              #perPage: 15
+              +exists: true
+              +wasRecentlyCreated: false
+              #attributes: array:4 [
+                "gender_id" => 1
+                "category_id" => 5
+                "created_at" => "2021-10-23 00:02:30"
+                "updated_at" => "2021-10-23 00:02:30"
+              ]
+              #original: array:4 [
+                "gender_id" => 1
+                "category_id" => 5
+                "created_at" => "2021-10-23 00:02:30"
+                "updated_at" => "2021-10-23 00:02:30"
+              ]
+              #changes: []
+              #casts: []
+              #classCastCache: []
+              #dates: []
+              #dateFormat: null
+              #appends: []
+              #dispatchesEvents: []
+              #observables: []
+              #relations: []
+              #touches: []
+              +timestamps: true
+              #hidden: []
+              #visible: []
+              #fillable: []
+              +pivotParent: App\Models\Gender {#1342}
+              #foreignKey: "gender_id"
+              #relatedKey: "category_id"
+            }
+            "children" => Illuminate\Database\Eloquent\Collection {#1393
+              #items: array:7 [
+                0 => App\Models\Category {#1421
+                  +translatable: array:2 [
+                    0 => "name"
+                    1 => "description"
+                  ]
+                  #guarded: array:1 [
+                    0 => "id"
+                  ]
+                  #connection: "mysql"
+                  #table: "categories"
+                  #primaryKey: "id"
+                  #keyType: "int"
+                  +incrementing: true
+                  #with: []
+                  #withCount: []
+                  +preventsLazyLoading: false
+                  #perPage: 15
+                  +exists: true
+                  +wasRecentlyCreated: false
+                  #attributes: array:11 [
+                    "id" => 6
+                    "name" => "{"en":"Pants","de":"Turnschuhe"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Pants desc","de":"Turnschuhe desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #original: array:11 [
+                    "id" => 6
+                    "name" => "{"en":"Pants","de":"Turnschuhe"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Pants desc","de":"Turnschuhe desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #changes: []
+                  #casts: array:1 [
+                    "deleted_at" => "datetime"
+                  ]
+                  #classCastCache: []
+                  #dates: []
+                  #dateFormat: null
+                  #appends: []
+                  #dispatchesEvents: []
+                  #observables: []
+                  #relations: array:1 [
+                    "children" => Illuminate\Database\Eloquent\Collection {#1436
+                      #items: []
+                    }
+                  ]
+                  #touches: []
+                  +timestamps: true
+                  #hidden: []
+                  #visible: []
+                  #fillable: []
+                  #userstamping: true
+                  #forceDeleting: false
+                  #translationLocale: null
+                }
+                1 => App\Models\Category {#1422
+                  +translatable: array:2 [
+                    0 => "name"
+                    1 => "description"
+                  ]
+                  #guarded: array:1 [
+                    0 => "id"
+                  ]
+                  #connection: "mysql"
+                  #table: "categories"
+                  #primaryKey: "id"
+                  #keyType: "int"
+                  +incrementing: true
+                  #with: []
+                  #withCount: []
+                  +preventsLazyLoading: false
+                  #perPage: 15
+                  +exists: true
+                  +wasRecentlyCreated: false
+                  #attributes: array:11 [
+                    "id" => 7
+                    "name" => "{"en":"Hoodies & Sweatshirts","de":"Hoodies & Sweatshirts"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Hoodies & Sweatshirts desc","de":"Hoodies & Sweatshirts desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #original: array:11 [
+                    "id" => 7
+                    "name" => "{"en":"Hoodies & Sweatshirts","de":"Hoodies & Sweatshirts"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Hoodies & Sweatshirts desc","de":"Hoodies & Sweatshirts desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #changes: []
+                  #casts: array:1 [
+                    "deleted_at" => "datetime"
+                  ]
+                  #classCastCache: []
+                  #dates: []
+                  #dateFormat: null
+                  #appends: []
+                  #dispatchesEvents: []
+                  #observables: []
+                  #relations: array:1 [
+                    "children" => Illuminate\Database\Eloquent\Collection {#1445
+                      #items: []
+                    }
+                  ]
+                  #touches: []
+                  +timestamps: true
+                  #hidden: []
+                  #visible: []
+                  #fillable: []
+                  #userstamping: true
+                  #forceDeleting: false
+                  #translationLocale: null
+                }
+                2 => App\Models\Category {#1423
+                  +translatable: array:2 [
+                    0 => "name"
+                    1 => "description"
+                  ]
+                  #guarded: array:1 [
+                    0 => "id"
+                  ]
+                  #connection: "mysql"
+                  #table: "categories"
+                  #primaryKey: "id"
+                  #keyType: "int"
+                  +incrementing: true
+                  #with: []
+                  #withCount: []
+                  +preventsLazyLoading: false
+                  #perPage: 15
+                  +exists: true
+                  +wasRecentlyCreated: false
+                  #attributes: array:11 [
+                    "id" => 8
+                    "name" => "{"en":"Jackets","de":"Jacken"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Jackets desc","de":"Jacken desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #original: array:11 [
+                    "id" => 8
+                    "name" => "{"en":"Jackets","de":"Jacken"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Jackets desc","de":"Jacken desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #changes: []
+                  #casts: array:1 [
+                    "deleted_at" => "datetime"
+                  ]
+                  #classCastCache: []
+                  #dates: []
+                  #dateFormat: null
+                  #appends: []
+                  #dispatchesEvents: []
+                  #observables: []
+                  #relations: array:1 [
+                    "children" => Illuminate\Database\Eloquent\Collection {#1359
+                      #items: []
+                    }
+                  ]
+                  #touches: []
+                  +timestamps: true
+                  #hidden: []
+                  #visible: []
+                  #fillable: []
+                  #userstamping: true
+                  #forceDeleting: false
+                  #translationLocale: null
+                }
+                3 => App\Models\Category {#1424
+                  +translatable: array:2 [
+                    0 => "name"
+                    1 => "description"
+                  ]
+                  #guarded: array:1 [
+                    0 => "id"
+                  ]
+                  #connection: "mysql"
+                  #table: "categories"
+                  #primaryKey: "id"
+                  #keyType: "int"
+                  +incrementing: true
+                  #with: []
+                  #withCount: []
+                  +preventsLazyLoading: false
+                  #perPage: 15
+                  +exists: true
+                  +wasRecentlyCreated: false
+                  #attributes: array:11 [
+                    "id" => 9
+                    "name" => "{"en":"Underwear","de":"Unterw\u00e4sche"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Underwear category","de":"Unterw\u00e4sche desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #original: array:11 [
+                    "id" => 9
+                    "name" => "{"en":"Underwear","de":"Unterw\u00e4sche"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Underwear category","de":"Unterw\u00e4sche desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #changes: []
+                  #casts: array:1 [
+                    "deleted_at" => "datetime"
+                  ]
+                  #classCastCache: []
+                  #dates: []
+                  #dateFormat: null
+                  #appends: []
+                  #dispatchesEvents: []
+                  #observables: []
+                  #relations: array:1 [
+                    "children" => Illuminate\Database\Eloquent\Collection {#1460
+                      #items: []
+                    }
+                  ]
+                  #touches: []
+                  +timestamps: true
+                  #hidden: []
+                  #visible: []
+                  #fillable: []
+                  #userstamping: true
+                  #forceDeleting: false
+                  #translationLocale: null
+                }
+                4 => App\Models\Category {#1425
+                  +translatable: array:2 [
+                    0 => "name"
+                    1 => "description"
+                  ]
+                  #guarded: array:1 [
+                    0 => "id"
+                  ]
+                  #connection: "mysql"
+                  #table: "categories"
+                  #primaryKey: "id"
+                  #keyType: "int"
+                  +incrementing: true
+                  #with: []
+                  #withCount: []
+                  +preventsLazyLoading: false
+                  #perPage: 15
+                  +exists: true
+                  +wasRecentlyCreated: false
+                  #attributes: array:11 [
+                    "id" => 10
+                    "name" => "{"en":"Leggings & Tights","de":"Leggings & Strumpfhosen"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Leggings & Tights category","de":"Leggings & Strumpfhosen desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #original: array:11 [
+                    "id" => 10
+                    "name" => "{"en":"Leggings & Tights","de":"Leggings & Strumpfhosen"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Leggings & Tights category","de":"Leggings & Strumpfhosen desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #changes: []
+                  #casts: array:1 [
+                    "deleted_at" => "datetime"
+                  ]
+                  #classCastCache: []
+                  #dates: []
+                  #dateFormat: null
+                  #appends: []
+                  #dispatchesEvents: []
+                  #observables: []
+                  #relations: array:1 [
+                    "children" => Illuminate\Database\Eloquent\Collection {#1485
+                      #items: []
+                    }
+                  ]
+                  #touches: []
+                  +timestamps: true
+                  #hidden: []
+                  #visible: []
+                  #fillable: []
+                  #userstamping: true
+                  #forceDeleting: false
+                  #translationLocale: null
+                }
+                5 => App\Models\Category {#1426
+                  +translatable: array:2 [
+                    0 => "name"
+                    1 => "description"
+                  ]
+                  #guarded: array:1 [
+                    0 => "id"
+                  ]
+                  #connection: "mysql"
+                  #table: "categories"
+                  #primaryKey: "id"
+                  #keyType: "int"
+                  +incrementing: true
+                  #with: []
+                  #withCount: []
+                  +preventsLazyLoading: false
+                  #perPage: 15
+                  +exists: true
+                  +wasRecentlyCreated: false
+                  #attributes: array:11 [
+                    "id" => 11
+                    "name" => "{"en":"Skirts & Dresses","de":"R\u00f6cke & Kleider"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Skirts & Dresses category","de":"R\u00f6cke & Kleider desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #original: array:11 [
+                    "id" => 11
+                    "name" => "{"en":"Skirts & Dresses","de":"R\u00f6cke & Kleider"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Skirts & Dresses category","de":"R\u00f6cke & Kleider desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #changes: []
+                  #casts: array:1 [
+                    "deleted_at" => "datetime"
+                  ]
+                  #classCastCache: []
+                  #dates: []
+                  #dateFormat: null
+                  #appends: []
+                  #dispatchesEvents: []
+                  #observables: []
+                  #relations: array:1 [
+                    "children" => Illuminate\Database\Eloquent\Collection {#1372
+                      #items: []
+                    }
+                  ]
+                  #touches: []
+                  +timestamps: true
+                  #hidden: []
+                  #visible: []
+                  #fillable: []
+                  #userstamping: true
+                  #forceDeleting: false
+                  #translationLocale: null
+                }
+                6 => App\Models\Category {#1427
+                  +translatable: array:2 [
+                    0 => "name"
+                    1 => "description"
+                  ]
+                  #guarded: array:1 [
+                    0 => "id"
+                  ]
+                  #connection: "mysql"
+                  #table: "categories"
+                  #primaryKey: "id"
+                  #keyType: "int"
+                  +incrementing: true
+                  #with: []
+                  #withCount: []
+                  +preventsLazyLoading: false
+                  #perPage: 15
+                  +exists: true
+                  +wasRecentlyCreated: false
+                  #attributes: array:11 [
+                    "id" => 12
+                    "name" => "{"en":"Bras","de":"BHs"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Bras category","de":"BHs desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #original: array:11 [
+                    "id" => 12
+                    "name" => "{"en":"Bras","de":"BHs"}"
+                    "parent_id" => 5
+                    "description" => "{"en":"Bras category","de":"BHs desc"}"
+                    "active" => 1
+                    "created_at" => "2021-10-23 00:02:30"
+                    "updated_at" => "2021-10-23 00:02:30"
+                    "deleted_at" => null
+                    "created_by" => null
+                    "updated_by" => null
+                    "deleted_by" => null
+                  ]
+                  #changes: []
+                  #casts: array:1 [
+                    "deleted_at" => "datetime"
+                  ]
+                  #classCastCache: []
+                  #dates: []
+                  #dateFormat: null
+                  #appends: []
+                  #dispatchesEvents: []
+                  #observables: []
+                  #relations: array:1 [
+                    "children" => Illuminate\Database\Eloquent\Collection {#1444
+                      #items: []
+                    }
+                  ]
+                  #touches: []
+                  +timestamps: true
+                  #hidden: []
+                  #visible: []
+                  #fillable: []
+                  #userstamping: true
+                  #forceDeleting: false
+                  #translationLocale: null
+                }
+              ]
+            }
+          ]
+          #touches: []
+          +timestamps: true
+          #hidden: []
+          #visible: []
+          #fillable: []
+          #userstamping: true
+          #forceDeleting: false
+          #translationLocale: null
+        }
+      ]
+    }
+  ]
+  #touches: []
+  +timestamps: true
+  #hidden: []
+  #visible: []
+  #fillable: []
+}
